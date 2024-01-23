@@ -8,6 +8,7 @@ import AppWidgetSummary from '../DashboardCards';
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  console.log('appView');
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>

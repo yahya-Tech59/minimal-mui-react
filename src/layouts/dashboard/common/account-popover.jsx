@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -38,7 +39,8 @@ export default function AccountPopover() {
   };
 
   const handleClose = () => {
-    setOpen(null);
+    // setOpen(null);
+    <Link to="signOut" />;
   };
 
   return (
