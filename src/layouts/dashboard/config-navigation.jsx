@@ -38,7 +38,11 @@ const navConfig = [
     path: '/blog',
     icon: icon('ic_blog'),
   },
-
+  {
+    title: 'signOut',
+    path: '/signOut',
+    icon: icon('ic_blog'),
+  },
   {
     title: 'Not found',
     path: '/404',

@@ -17,7 +17,7 @@ export const columns = [
     headerName: 'Actions',
     flex: 1,
     sortable: false,
-    renderCell: ({ row }) => {
+    RenderCell: ({ row }) => {
       const [showEditAgent, setShowEditAgent] = useState(false);
       const [showDeleteAgent, setShowDeleteAgent] = useState(false);
       const [id, setId] = useState(null);
@@ -96,3 +96,8 @@ export const columns = [
     },
   },
 ];
+
+columns.propTypes = {
+  columns: PropTypes.array,
+  row: PropTypes.number,
+};

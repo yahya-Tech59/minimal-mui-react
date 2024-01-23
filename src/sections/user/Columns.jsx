@@ -13,7 +13,7 @@ export const columns = [
     field: 'actions',
     headerName: 'Actions',
     flex: 1,
-    renderCell: ({ row }) => {
+    RenderCell: ({ row }) => {
       const [showEditUser, setShowEditUser] = useState(false);
       const [showDeleteUser, setShowDeleteUser] = useState(false);
       const [id, setId] = useState(null);
@@ -92,3 +92,8 @@ export const columns = [
     },
   },
 ];
+
+columns.propTypes = {
+  columns: PropTypes.array,
+  row: PropTypes.number,
+};

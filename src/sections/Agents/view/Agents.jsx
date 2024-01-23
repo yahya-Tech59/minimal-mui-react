@@ -8,9 +8,10 @@ import { DataGrid } from '@mui/x-data-grid';
 // import { Context } from '../../Context/Context';
 // import useAgentsStore from '../../Services/AgentApi';
 // import { Search } from '../../components/Search';
-import { Box, Card, Button, Container, Stack, Typography } from '@mui/material';
-import { Search } from 'src/components/Search';
+import { Box, Card, Stack, Button, Container, Typography } from '@mui/material';
+
 import Iconify from 'src/components/iconify';
+import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
@@ -55,25 +56,23 @@ export default function AgentsView() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} mt={3}>
           <Typography variant="h4">Agents</Typography>
 
-          <Box display="flex" justifyItems="space-between">
-            <Button
-              variant="contained"
-              bgcolor="#3A57E8"
-              ml="72rem"
-              startIcon={<Iconify icon="eva:plus-fill" />}
-            >
-              New Agent
-            </Button>
-            <Search
-              label="Search"
-              variant="outlined"
-              size="small"
-              // value={searchText}
-              // onChange={handleSearch}
-              sx={{ ml: 5, mb: 2 }}
-            />
-          </Box>
+          <Button
+            variant="contained"
+            bgcolor="#3A57E8"
+            ml="72rem"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            New Agent
+          </Button>
         </Stack>
+        <Search
+          label="Search"
+          variant="outlined"
+          size="small"
+          // value={searchText}
+          // onChange={handleSearch}
+          sx={{ ml: 5, mb: 2 }}
+        />
         {/* <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}

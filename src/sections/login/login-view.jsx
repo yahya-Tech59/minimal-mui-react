@@ -1,22 +1,25 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import * as yup from 'yup';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { useRouter } from 'src/routes/hooks';
+
+// import { Google, facebook, hope, hope_ui, instagram, linkedin } from '../assets/img';
+
+// import { MdError } from 'react-icons/md';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import { TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-// import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-// import InputAdornment from '@mui/material/InputAdornment';
-
-// import { useRouter } from 'src/routes/hooks';
-
-import { Navigate } from 'react-router-dom';
 
 import { bgGradient } from 'src/theme/css';
 
@@ -28,63 +31,83 @@ import Iconify from 'src/components/iconify';
 export default function SignIn() {
   const theme = useTheme();
 
-  // const router = useRouter();
+  const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
   // const [login, setLogin] = useState([]);
   // const [showPassword, setShowPassword] = useState(false);
 
-  // const handleClick = () => {
-  //   router.push('/dashboard');
-  // };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  //   const [showError, setShowError] = useState(false);
+
+  const schema = yup.object().shape({
+    email: yup.string().email('email format is not valid').required('email is required'),
+    password: yup.string().min(4).max(15).required('password is required'),
+  });
+
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(schema),
+  });
+  // const { errors } = formState;
 
   const fetchLogin = async (data) => {
-    const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-    const res = await axios.post(`${baseURL}/api/uth/login`, data);
+    try {
+      setLoading(true);
+      const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
 
-    if (res.status === 200) {
-      localStorage.setItem('token', res.data.token);
-      Navigate('/dashboard');
-      // alert("logged in Successfuly");
-      // setLoading(false);
-    } else {
-      console.error('Authentication failed');
+      const res = await axios.post(`${baseURL}/api/auth/login`, data);
+
+      if (res.status === 200) {
+        localStorage.setItem('token', res.data.token);
+        router.push('/dashboard');
+        // alert("logged in Successfuly");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+      //   if (error.response) {
+      //     // The request was made and the server responded with a status code
+      //     setShowError(error.response.data.message || 'An error occurred');
+      //   } else if (error.request) {
+      //     // The request was made but no response was received
+      //     setShowError('No response received from the server');
+      //   } else {
+      //     // Something happened in setting up the request that triggered an Error
+      //     setShowError('An error occurred');
+      //   }
     }
-    // setLogin(res.data);
-    console.log(res.data);
   };
 
-  useEffect(() => {
-    fetchLogin();
-  });
+  if (loading === true) {
+    return (
+      <Typography variant="h1" sx={{ fontSize: '20', fontWeight: 600, marginLeft: '53rem' }}>
+        Loading...
+      </Typography>
+    );
+  }
 
   const renderForm = (
     <>
       <Stack spacing={3}>
         <TextField
-          name="email"
-          type="email"
-          label="Email address"
+          label="Email "
+          {...register('email')}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {/* {errors.email?.message && <FormHelperText error>{errors.email.message}</FormHelperText>} */}
 
         <TextField
-          name="password"
-          label="Password"
+          label="Password "
           type="password"
+          {...register('password')}
+          margin="normal"
+          variant="outlined"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          // InputProps={{
-          //   endAdornment: (
-          //     <InputAdornment position="end">
-          //       <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-          //         <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-          //       </IconButton>
-          //     </InputAdornment>
-          //   ),
-          // }}
         />
       </Stack>
 
@@ -117,7 +140,7 @@ export default function SignIn() {
         height: 1,
       }}
       component="form"
-      onSubmit={fetchLogin}
+      onSubmit={handleSubmit(fetchLogin)}
     >
       <Logo
         sx={{

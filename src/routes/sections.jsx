@@ -3,6 +3,8 @@ import { Outlet, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
+// import { ProtectedRoutes } from './ProtectedRoutes';
+
 export const IndexPage = lazy(() => import('src/pages/app'));
 export const AgentPage = lazy(() => import('src/pages/agents'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
@@ -17,30 +19,29 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export default function Router() {
   const routes = useRoutes([
     {
-      path: '/',
+      path: '/signIn',
       element: <LoginPage />,
     },
     {
       element: (
         <DashboardLayout>
           <Suspense>
+            {/* <ProtectedRoutes>
+            </ProtectedRoutes> */}
             <Outlet />
           </Suspense>
         </DashboardLayout>
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: 'dashboard', element: <IndexPage /> },
+        { path: '/dashboard', element: <IndexPage /> },
         { path: 'agent', element: <AgentPage /> },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
-        { path: 'SignOut', element: <LogoutPage /> },
+        { path: 'signOut', element: <LogoutPage /> },
+        { path: '*', element: <Page404 /> },
       ],
-    },
-    {
-      path: '*',
-      element: <Page404 />,
     },
     // {
     //   path: '',
