@@ -1,14 +1,13 @@
 import axios from 'axios';
+import * as yup from 'yup';
 import PropTypes from 'prop-types';
+import { Box, Input, InputLabel, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { IoCloseOutline } from 'react-icons/io5';
 import SubmitButton from '../../components/SubmitButton';
 import ClearButton from '../../components/ClearButton';
-import { Box, Input, InputLabel, Typography } from '@mui/material';
-
 import CloseButton from '../../components/CloseButton';
 
 export const EditAgent = ({ onClose, id }) => {

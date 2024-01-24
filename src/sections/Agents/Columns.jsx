@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
@@ -99,5 +100,4 @@ export const columns = [
 
 columns.propTypes = {
   columns: PropTypes.array,
-  row: PropTypes.number,
 };

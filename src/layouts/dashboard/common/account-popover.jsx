@@ -43,6 +43,10 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
+  const handleLogOut = () => {
+    <Navigate to="/signOut" />;
+  };
+
   return (
     <>
       <IconButton
@@ -108,7 +112,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={<Navigate to="/signIn" />}
+          onClick={handleLogOut}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

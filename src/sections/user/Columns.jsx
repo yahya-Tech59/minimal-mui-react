@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 import { Box, Icon, IconButton } from '@mui/material';
@@ -95,5 +96,5 @@ export const columns = [
 
 columns.propTypes = {
   columns: PropTypes.array,
-  row: PropTypes.number,
+  [row.id]: PropTypes.number,
 };
