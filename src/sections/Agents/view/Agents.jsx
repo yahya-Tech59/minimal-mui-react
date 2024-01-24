@@ -33,20 +33,19 @@ export default function AgentsView() {
 
   const open = Boolean(anchorEl);
 
-  const fetchAgent = useCallback(async () => {
+  // ?_page=${current_page}&_limit=${per_page}
+
+  const fetchAgent = async () => {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     const token = localStorage.getItem('token');
     try {
-      const req = await axios.get(
-        `${baseURL}/api/v1/agents?_page=${current_page}&_limit=${per_page}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const req = await axios.get(`${baseURL}/api/v1/agents`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (req.status === 200) {
         const responseData = req.data;
@@ -59,12 +58,14 @@ export default function AgentsView() {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  }, [current_page, per_page]);
+  };
 
   useEffect(() => {
     fetchAgent();
     console.log('Agents:', agents);
   }, []);
+
+  // current_page, per_page
 
   // useEffect(() => {
   //   console.log('Agents:', agents);

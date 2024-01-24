@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
-import { Box, Icon, IconButton, Popover, Button } from '@mui/material';
+
+import { Box, Icon, Popover, IconButton } from '@mui/material';
 
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
@@ -81,7 +82,6 @@ export const columns = [
           <IconButton
             onClick={(event) => {
               setId(row.id);
-              setShowDeleteAgent(true);
               handlePopoverOpen(event);
             }}
             sx={{
@@ -101,7 +101,6 @@ export const columns = [
             open={open}
             anchorEl={anchorEl}
             onClose={() => {
-              setShowDeleteAgent(false);
               handlePopoverClose();
             }}
             anchorOrigin={{
@@ -114,7 +113,8 @@ export const columns = [
             }}
           >
             <Box>
-              <DeleteAgent onClose={() => setShowDeleteAgent(false)} id={id} />
+              {/* onClose={() => setShowDeleteAgent(false)} */}
+              <DeleteAgent id={id} />
             </Box>
           </Popover>
         </Box>

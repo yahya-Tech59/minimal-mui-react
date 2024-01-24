@@ -204,6 +204,6 @@ export const AddAgent = ({ onClose }) => {
   );
 };
 
-AddAgent.PropTypes = {
+AddAgent.propTypes = {
   onClose: PropTypes.func,
 };

@@ -41,6 +41,7 @@ export const EditAgent = ({ onClose, id }) => {
   const fetchEditAgent = async () => {
     try {
       //setLoading(true);
+
       const res = await axios.get(`${baseURL}/api/v1/agents/${id}/edit`, {
         headers: {
           'Content-Type': 'application/json',
