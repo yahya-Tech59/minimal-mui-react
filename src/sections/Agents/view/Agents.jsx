@@ -3,26 +3,35 @@ import axios from 'axios';
 import { useState, useEffect, useCallback } from 'react';
 
 // import { Header } from '../../layouts/Header';
-// import { AddAgent } from '../AddAgent';
-// import { IoMdAdd } from 'react-icons/io';
 import { DataGrid } from '@mui/x-data-grid';
-// import { Context } from '../../Context/Context';
-// import useAgentsStore from '../../Services/AgentApi';
+
+// import { IoMdAdd } from 'react-icons/io';
 // import { Search } from '../../components/Search';
-import { Box, Card, Stack, Button, Container, Typography } from '@mui/material';
+import { Box, Card, Stack, Button, Popover, Container, Typography } from '@mui/material';
 
 import Iconify from 'src/components/iconify';
 import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-// import { Pagination } from '../../components/Pagination';
+import { AddAgent } from '../AddAgent';
 
 export default function AgentsView() {
   // const [showAddAgent, setShowAddAgent] = useState(false);
   const [agents, setAgents] = useState([]);
   const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const fetchAgent = useCallback(async () => {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
@@ -92,14 +101,55 @@ export default function AgentsView() {
         >
           <Typography variant="h4">Agents</Typography>
 
-          <Button
+          {/* <Button
             variant="contained"
             bgcolor="#3A57E8"
             ml="72rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
           >
             New Agent
+          </Button> */}
+          <Button
+            variant="contained"
+            bgcolor="#3A57E8"
+            ml="72rem"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+            aria-describedby="new-agent-popover"
+            onClick={handlePopoverOpen}
+            // onMouseLeave={handlePopoverClose}
+          >
+            New Agent
           </Button>
+          <Popover
+            id="new-agent-popover"
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box
+              sx={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              <AddAgent onClose={handlePopoverClose} />
+            </Box>
+          </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '46rem', sm: '19rem' }, mb: 2 }}>
           <Search

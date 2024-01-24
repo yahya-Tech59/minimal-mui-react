@@ -13,9 +13,9 @@ const ClearButton = ({ label, onClick }) => (
       borderRadius: 4,
       width: 28,
       height: 12,
-      bgcolor: '#C03221',
+      bgcolor: '#3A57E8',
       '&:hover': {
-        bgcolor: '#df5646',
+        bgcolor: '#647ae6',
       },
       color: 'white',
     }}

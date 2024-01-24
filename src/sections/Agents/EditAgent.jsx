@@ -16,7 +16,7 @@ export const EditAgent = ({ onClose, id }) => {
   const [description, setDescription] = useState('');
   const [business, setBusiness] = useState('');
   const [contact, setContact] = useState('');
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   const schema = yup.object().shape({
     fullname: yup.string().required(),
@@ -40,7 +40,7 @@ export const EditAgent = ({ onClose, id }) => {
   const token = localStorage.getItem('token');
   const fetchEditAgent = async () => {
     try {
-      setLoading(true);
+      //setLoading(true);
       const res = await axios.get(`${baseURL}/api/v1/agents/${id}/edit`, {
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ export const EditAgent = ({ onClose, id }) => {
         setBusiness(agentData?.business || '');
         setContact(agentData?.phone || '');
 
-        setLoading(false);
+        // setLoading(false);
       }
     } catch (error) {
       alert(error);
@@ -69,7 +69,7 @@ export const EditAgent = ({ onClose, id }) => {
 
   const editAgent = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       const res = await axios.put(
         `${baseURL}/api/v1/agents/${id}`,
         {
@@ -95,9 +95,9 @@ export const EditAgent = ({ onClose, id }) => {
     }
   };
 
-  if (loading === true) {
-    return <Typography variant="h1">Loading...</Typography>;
-  }
+  // if (loading === true) {
+  //   return <Typography variant="h1">Loading...</Typography>;
+  // }
   return (
     <Box sx={{ display: 'flex' }}>
       <Box

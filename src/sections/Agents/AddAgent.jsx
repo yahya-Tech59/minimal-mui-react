@@ -1,10 +1,12 @@
 import axios from 'axios';
+import * as yup from 'yup';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Box, Stack, Input, InputLabel, Typography } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+
 import ClearButton from '../../components/ClearButton';
 import CloseButton from '../../components/CloseButton';
 import SubmitButton from '../../components/SubmitButton';
@@ -88,7 +90,7 @@ export const AddAgent = ({ onClose }) => {
             p: 3,
           }}
         >
-          <Box sx={{ mt: 4 }}>
+          <Box>
             <Box sx={{ display: 'flex', gap: 5 }}>
               <Typography variant="h4" sx={{ ml: 10 }}>
                 Add New Agent
@@ -200,4 +202,8 @@ export const AddAgent = ({ onClose }) => {
       </Box>
     </Box>
   );
+};
+
+AddAgent.PropTypes = {
+  onClose: PropTypes.func,
 };

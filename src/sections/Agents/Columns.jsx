@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
+import { Box, Icon, IconButton, Popover, Button } from '@mui/material';
 
-// import { del, edit } from "../../assets/img";
-import { Box, Icon, IconButton } from '@mui/material';
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
 
@@ -18,10 +17,19 @@ export const columns = [
     headerName: 'Actions',
     flex: 1,
     sortable: false,
-    RenderCell: ({ row }) => {
-      const [showEditAgent, setShowEditAgent] = useState(false);
-      const [showDeleteAgent, setShowDeleteAgent] = useState(false);
+    renderCell: ({ row }) => {
       const [id, setId] = useState(null);
+      const [anchorEl, setAnchorEl] = useState(null);
+
+      const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handlePopoverClose = () => {
+        setAnchorEl(null);
+      };
+
+      const open = Boolean(anchorEl);
 
       return (
         <Box
@@ -35,9 +43,9 @@ export const columns = [
           }}
         >
           <IconButton
-            onClick={() => {
+            onClick={(event) => {
               setId(row.id);
-              setShowEditAgent(true);
+              handlePopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -52,11 +60,29 @@ export const columns = [
               <RiEditLine />
             </Icon>
           </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box p={2}>
+              <EditAgent onClose={handlePopoverClose} id={id} />
+            </Box>
+          </Popover>
+
           <IconButton
-            onClick={() => {
+            onClick={(event) => {
               setId(row.id);
               setShowDeleteAgent(true);
-              alert('deleted successfuly');
+              handlePopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -71,29 +97,26 @@ export const columns = [
               <RiDeleteBin2Line />
             </Icon>
           </IconButton>
-
-          {showEditAgent && (
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              <EditAgent onClose={() => setShowEditAgent(false)} id={id} />
-            </Box>
-          )}
-          {showDeleteAgent && (
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => {
+              setShowDeleteAgent(false);
+              handlePopoverClose();
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
             <Box>
-              <DeleteAgent onClose={() => setShowDeleteAgent(false)} id={id} />{' '}
+              <DeleteAgent onClose={() => setShowDeleteAgent(false)} id={id} />
             </Box>
-          )}
+          </Popover>
         </Box>
       );
     },
@@ -102,4 +125,5 @@ export const columns = [
 
 columns.propTypes = {
   columns: PropTypes.array,
+  onClose: PropTypes.func,
 };
