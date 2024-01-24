@@ -12,7 +12,6 @@ export const Search = ({ label, variant, size, value, onChange }) => {
           fontSize: 28,
           position: 'relative',
           top: 2,
-          position: 'relative',
           left: 212,
         }}
       >

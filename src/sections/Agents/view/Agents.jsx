@@ -35,7 +35,14 @@ export default function AgentsView() {
       });
 
       if (req.status === 200) {
-        setAgents(req.data);
+        // setAgents(req.data);
+
+        const responseData = req.data;
+        if (responseData && responseData.data && Array.isArray(responseData.data)) {
+          setAgents(responseData.data);
+        } else {
+          console.error('Invalid data structure received from the API:', responseData);
+        }
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -45,6 +52,10 @@ export default function AgentsView() {
   useEffect(() => {
     fetchAgent();
   }, []);
+
+  useEffect(() => {
+    console.log('Agents:', agents);
+  }, [agents]);
 
   // if (loading === true) {
   //   return (
@@ -77,7 +88,7 @@ export default function AgentsView() {
             New Agent
           </Button>
         </Stack>
-        <Stack sx={{ ml: { md: '46rem', sm: '42rem' }, mb: 2 }}>
+        <Stack sx={{ ml: { md: '46rem', sm: '19rem' }, mb: 2 }}>
           <Search
             label="Search"
             variant="outlined"
@@ -94,6 +105,7 @@ export default function AgentsView() {
 
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
+            {console.log('Type of agents:', typeof agents)}
             <DataGrid rows={agents} columns={columns} getRowId={(row) => row.id} />
           </Box>
           {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}

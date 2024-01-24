@@ -48,7 +48,7 @@ export default function SignIn() {
     password: yup.string().min(4).max(15).required('password is required'),
   });
 
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
   // const { errors } = formState;
