@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 // import { del, edit } from "../../assets/img";
-// import { EditAgent } from '../Agents/EditAgent';
-// import { DeleteAgent } from '../Agents/DeleteAgent';
 import { Box, Icon, IconButton } from '@mui/material';
+import { EditAgent } from './EditAgent';
+import { DeleteAgent } from './DeleteAgent';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },
@@ -86,11 +86,13 @@ export const columns = [
                 backgroundColor: 'rgba(0, 0, 0, 0.2)',
               }}
             >
-              {/* <EditAgent onClose={() => setShowEditAgent(false)} id={id} /> */}
+              <EditAgent onClose={() => setShowEditAgent(false)} id={id} />
             </Box>
           )}
           {showDeleteAgent && (
-            <Box>{/* <DeleteAgent onClose={() => setShowDeleteAgent(false)} id={id} /> */}</Box>
+            <Box>
+              <DeleteAgent onClose={() => setShowDeleteAgent(false)} id={id} />{' '}
+            </Box>
           )}
         </Box>
       );

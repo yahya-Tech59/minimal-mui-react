@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { PropTypes } from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // import { Header } from '../../layouts/Header';
 // import { AddAgent } from '../AddAgent';
@@ -21,22 +21,25 @@ import { columns } from '../Columns';
 export default function AgentsView() {
   // const [showAddAgent, setShowAddAgent] = useState(false);
   const [agents, setAgents] = useState([]);
+  const [current_page, setCurrent_page] = useState(1);
+  const [per_page, setPer_page] = useState(10);
 
-  const fetchAgent = async () => {
+  const fetchAgent = useCallback(async () => {
+    const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
+    const token = localStorage.getItem('token');
     try {
-      const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-      const token = localStorage.getItem('token');
-      const req = await axios.get(`${baseURL}/api/v1/agents`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const req = await axios.get(
+        `${baseURL}/api/v1/agents?_page=${current_page}&_limit=${per_page}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (req.status === 200) {
-        // setAgents(req.data);
-
         const responseData = req.data;
         if (responseData && responseData.data && Array.isArray(responseData.data)) {
           setAgents(responseData.data);
@@ -47,15 +50,16 @@ export default function AgentsView() {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
+  }, [current_page, per_page]);
 
   useEffect(() => {
     fetchAgent();
+    console.log('Agents:', agents);
   }, []);
 
-  useEffect(() => {
-    console.log('Agents:', agents);
-  }, [agents]);
+  // useEffect(() => {
+  //   console.log('Agents:', agents);
+  // }, [agents]);
 
   // if (loading === true) {
   //   return (
@@ -65,9 +69,18 @@ export default function AgentsView() {
   //   );
   // }
 
+  const handlePageChange = (newPage) => {
+    setCurrent_page(newPage);
+  };
+
+  const handlePageSizeChange = (newPageSize) => {
+    setPer_page(newPageSize);
+    setCurrent_page(1); // Reset page when changing page size
+  };
+
   return (
     <Container>
-      <Card>
+      <Card width={{ md: '100%' }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -106,7 +119,16 @@ export default function AgentsView() {
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
             {console.log('Type of agents:', typeof agents)}
-            <DataGrid rows={agents} columns={columns} getRowId={(row) => row.id} />
+            <DataGrid
+              rows={agents}
+              columns={columns}
+              pagination
+              pageSize={per_page}
+              paginationMode="server"
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              getRowId={(row) => row.id}
+            />
           </Box>
           {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
 
