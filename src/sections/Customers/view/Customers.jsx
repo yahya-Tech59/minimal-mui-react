@@ -14,11 +14,10 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-import { AddAgent } from '../AddAgent';
+//import { AddCustomer } from '../AddCustomer';
 
 export default function AgentsView() {
-  // const [showAddAgent, setShowAddAgent] = useState(false);
-  const [agents, setAgents] = useState([]);
+  const [customers, setCustomers] = useState([]);
   const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
@@ -37,18 +36,19 @@ export default function AgentsView() {
 
   // ?_page=${current_page}&_limit=${per_page}
 
-  const fetchAgent = async () => {
+  const fetchCustomer = async () => {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     const token = localStorage.getItem('token');
     try {
       const req = await axios.get(
-        `${baseURL}/api/v1/agents?page=${current_page}&_limit=${per_page}`,
+        `${baseURL}/api/v1/customers?page=${current_page}&_limit=${per_page}`,
         {
           headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             Authorization: `Bearer ${token}`,
           },
+          customers,
         }
       );
 
@@ -56,7 +56,7 @@ export default function AgentsView() {
         const responseData = req.data;
         console.log(responseData);
         if (responseData && responseData.data && Array.isArray(responseData.data)) {
-          setAgents(responseData.data);
+          setCustomers(responseData.data);
           setLast_Page(responseData.total);
         } else {
           console.error('Invalid data structure received from the API:', responseData);
@@ -68,8 +68,8 @@ export default function AgentsView() {
   };
 
   useEffect(() => {
-    fetchAgent();
-    console.log('Agents:', agents);
+    fetchCustomer();
+    console.log('Agents:', customers);
   }, []);
 
   // current_page, per_page
@@ -107,7 +107,7 @@ export default function AgentsView() {
           position="relative"
           top={6}
         >
-          <Typography variant="h4">Agents</Typography>
+          <Typography variant="h4">Customers</Typography>
 
           {/* <Button
             variant="contained"
@@ -120,13 +120,13 @@ export default function AgentsView() {
           <Button
             variant="contained"
             bgcolor="#3A57E8"
-            ml="72rem"
+            ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
             onClick={handlePopoverOpen}
             // onMouseLeave={handlePopoverClose}
           >
-            New Agent
+            New Customer
           </Button>
           <Popover
             id="new-agent-popover"
@@ -155,11 +155,11 @@ export default function AgentsView() {
                 backgroundColor: 'rgba(0, 0, 0, 0.2)',
               }}
             >
-              <AddAgent onClose={handlePopoverClose} />
+              {/* <AddAgent onClose={handlePopoverClose} /> */}
             </Box>
           </Popover>
         </Stack>
-        <Stack sx={{ ml: { md: '46rem', sm: '19rem' }, mb: 2 }}>
+        <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>
           <Search
             label="Search"
             variant="outlined"
@@ -178,7 +178,7 @@ export default function AgentsView() {
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
             {console.log('Type of agents:', typeof agents)}
             <DataGrid
-              rows={agents}
+              rows={customers}
               columns={columns}
               pagination
               pageSize={per_page}
@@ -186,7 +186,7 @@ export default function AgentsView() {
               onPageChange={(params) => handlePageChange(params.page)}
               onPageSizeChange={(params) => handlePageSizeChange(params.pageSize)}
               rowCount={last_Page}
-              loading={!agents.length}
+              loading={!customers.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
             />
