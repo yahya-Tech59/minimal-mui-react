@@ -21,6 +21,8 @@ export default function AgentsView() {
   const [agents, setAgents] = useState([]);
   const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
+  const [total, setTotal] = useState(25);
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handlePopoverOpen = (event) => {
@@ -39,16 +41,20 @@ export default function AgentsView() {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     const token = localStorage.getItem('token');
     try {
-      const req = await axios.get(`${baseURL}/api/v1/agents`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const req = await axios.get(
+        `${baseURL}/api/v1/agents?page=${current_page}&_limit=${per_page}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (req.status === 200) {
         const responseData = req.data;
+        console.log(responseData);
         if (responseData && responseData.data && Array.isArray(responseData.data)) {
           setAgents(responseData.data);
         } else {
@@ -85,7 +91,7 @@ export default function AgentsView() {
 
   const handlePageSizeChange = (newPageSize) => {
     setPer_page(newPageSize);
-    setCurrent_page(1); // Reset page when changing page size
+    setCurrent_page(1);
   };
 
   return (
@@ -178,6 +184,8 @@ export default function AgentsView() {
               paginationMode="server"
               onPageChange={handlePageChange}
               onPageSizeChange={handlePageSizeChange}
+              rowCount={total * per_page}
+              loading={!agents.length}
               getRowId={(row) => row.id}
             />
           </Box>
