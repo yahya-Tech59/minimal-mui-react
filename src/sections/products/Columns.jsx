@@ -1,39 +1,126 @@
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
-import Iconify from 'src/components/iconify';
+import { Box, Icon, Popover, IconButton } from '@mui/material';
 
-// ----------------------------------------------------------------------
+// import { EditAgent } from './EditAgent';
+// import { DeleteAgent } from './DeleteAgent';
 
-const StyledRoot = styled('div')(({ theme }) => ({
-  zIndex: 999,
-  right: 0,
-  display: 'flex',
-  cursor: 'pointer',
-  position: 'fixed',
-  alignItems: 'center',
-  top: theme.spacing(16),
-  height: theme.spacing(5),
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(2),
-  paddingTop: theme.spacing(1.25),
-  boxShadow: theme.customShadows.z20,
-  color: theme.palette.text.primary,
-  backgroundColor: theme.palette.background.paper,
-  borderTopLeftRadius: Number(theme.shape.borderRadius) * 2,
-  borderBottomLeftRadius: Number(theme.shape.borderRadius) * 2,
-  transition: theme.transitions.create('opacity'),
-  '&:hover': { opacity: 0.72 },
-}));
+export const columns = [
+  { field: 'id', headerName: 'No', flex: 1 },
+  { field: 'name', headerName: 'Prod_Name', flex: 1 },
+  { field: 'price', headerName: 'Price', flex: 1 },
+  { field: 'commission', headerName: 'Commission', flex: 1 },
+  {
+    field: 'actions',
+    headerName: 'Actions',
+    flex: 1,
+    sortable: false,
+    renderCell: ({ row }) => {
+      const [id, setId] = useState(null);
+      const [anchorEl, setAnchorEl] = useState(null);
 
-// ----------------------------------------------------------------------
+      const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
 
-export default function CartWidget() {
-  return (
-    <StyledRoot>
-      <Badge showZero badgeContent={0} color="error" max={99}>
-        <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
-      </Badge>
-    </StyledRoot>
-  );
-}
+      const handlePopoverClose = () => {
+        setAnchorEl(null);
+      };
+
+      const open = Boolean(anchorEl);
+
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            justifyContent: 'center',
+            ':hover': {
+              color: 'black',
+            },
+          }}
+        >
+          <IconButton
+            onClick={(event) => {
+              setId(row.id);
+              handlePopoverOpen(event);
+            }}
+            sx={{
+              bgcolor: '#3A57E8',
+              color: 'white',
+              borderRadius: '100%',
+              ':hover': {
+                bgcolor: '#4562f7',
+              },
+            }}
+          >
+            <Icon sx={{ fontSize: 21 }}>
+              <RiEditLine />
+            </Icon>
+          </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box p={2}>{/* <EditAgent onClose={handlePopoverClose} id={id} /> */}</Box>
+          </Popover>
+
+          <IconButton
+            onClick={(event) => {
+              setId(row.id);
+              handlePopoverOpen(event);
+            }}
+            sx={{
+              bgcolor: '#3A57E8',
+              color: 'white',
+              borderRadius: '100%',
+              ':hover': {
+                bgcolor: '#4562f7',
+              },
+            }}
+          >
+            <Icon sx={{ fontSize: 21 }}>
+              <RiDeleteBin2Line />
+            </Icon>
+          </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => {
+              handlePopoverClose();
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box>
+              {/* onClose={() => setShowDeleteAgent(false)} */}
+              {/* <DeleteAgent id={id} /> */}
+            </Box>
+          </Popover>
+        </Box>
+      );
+    },
+  },
+];
+
+columns.propTypes = {
+  columns: PropTypes.array,
+  onClose: PropTypes.func,
+};

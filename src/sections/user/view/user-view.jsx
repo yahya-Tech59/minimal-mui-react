@@ -1,108 +1,172 @@
-import { useState, useEffect } from 'react';
-
-import { Box } from '@mui/material';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import { DataGrid } from '@mui/x-data-grid';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-// import TablePagination from '@mui/material/TablePagination';
-
-// import { users } from 'src/_mock/user';
-
 import axios from 'axios';
+// import { PropTypes } from 'prop-types';
+import { useState, useEffect, useCallback } from 'react';
+
+// import { Header } from '../../layouts/Header';
+import { DataGrid } from '@mui/x-data-grid';
+
+// import { IoMdAdd } from 'react-icons/io';
+// import { Search } from '../../components/Search';
+import { Box, Card, Stack, Button, Popover, Container, Typography } from '@mui/material';
 
 import Iconify from 'src/components/iconify';
+import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-// import TableNoData from '../table-no-data';
-// import UserTableToolbar from '../user-table-toolbar';
-// import { applyFilter, getComparator } from '../utils';
-// import Table from '../../../components/Table';
+//import { AddProduct } from '../AddProduct';
 
-// ----------------------------------------------------------------------
-
-export default function UserPage() {
-  // const [page, setPage] = useState(0);
-  // const [order, setOrder] = useState('asc');
-  // const [orderBy, setOrderBy] = useState('name');
-  // const [selected, setSelected] = useState('');
-  // const [filterName, setFilterName] = useState('');
-  // const [rowsPerPage, setRowsPerPage] = useState(5);
+export default function ProductsView() {
   const [users, setUsers] = useState([]);
+  const [current_page, setCurrent_page] = useState(1);
+  const [per_page, setPer_page] = useState(10);
+  const [last_Page, setLast_Page] = useState(25);
 
-  const fetchUsers = async (page) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
+  // ?_page=${current_page}&_limit=${per_page}
+
+  const fetchUser = async () => {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     const token = localStorage.getItem('token');
-    const res = await axios.get(`${baseURL}/api/v1/users?page=${page}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUsers(res.data);
-    console.log(res.data);
+    try {
+      const req = await axios.get(
+        `${baseURL}/api/v1/users?page=${current_page}&_limit=${per_page}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          users,
+        }
+      );
+
+      if (req.status === 200) {
+        const responseData = req.data;
+        console.log(responseData);
+        if (responseData && responseData.data && Array.isArray(responseData.data)) {
+          setUsers(responseData.data);
+          setLast_Page(responseData.total);
+        } else {
+          console.error('Invalid data structure received from the API:', responseData);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   };
 
   useEffect(() => {
-    fetchUsers();
-  });
+    fetchUser();
+    console.log('users:', users);
+  }, []);
 
-  // const handleSort = (event, id) => {
-  //   const isAsc = orderBy === id && order === 'asc';
-  //   if (id !== '') {
-  //     setOrder(isAsc ? 'desc' : 'asc');
-  //     setOrderBy(id);
-  //   }
-  // };
+  // current_page, per_page
 
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = users.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
+  // useEffect(() => {
+  //   console.log('Agents:', agents);
+  // }, [agents]);
 
-  // const handleChangePage = (event, newPage) => {
-  //   setPage(newPage);
-  // };
+  // if (loading === true) {
+  //   return (
+  //     <Typography variant="h2" sx={{ mr: '43rem' }}>
+  //       Loading...
+  //     </Typography>
+  //   );
+  // }
 
-  // const handleChangeRowsPerPage = (event) => {
-  //   setPage(0);
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  // };
+  const handlePageChange = (newPage) => {
+    setCurrent_page(newPage);
+  };
 
-  // const handleFilterByName = (event) => {
-  //   setPage(0);
-  //   setFilterName(event.target.value);
-  // };
-
-  // const dataFiltered = applyFilter({
-  //   inputData: users,
-  //   comparator: getComparator(order, orderBy),
-  //   filterName,
-  // });
-
-  // const notFound = !dataFiltered.length && !!filterName;
+  const handlePageSizeChange = (newPageSize) => {
+    setPer_page(newPageSize);
+    setCurrent_page(1);
+  };
 
   return (
     <Container>
-      <Card>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" px={3} mt={3}>
+      <Card width={{ md: '100%' }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          px={3}
+          mt={2}
+          position="relative"
+          top={6}
+        >
           <Typography variant="h4">Users</Typography>
 
+          {/* <Button
+            variant="contained"
+            bgcolor="#3A57E8"
+            ml="72rem"
+            startIcon={<Iconify icon="eva:plus-fill" />}
+          >
+            New Agent
+          </Button> */}
           <Button
             variant="contained"
             bgcolor="#3A57E8"
+            ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
+            aria-describedby="new-agent-popover"
+            onClick={handlePopoverOpen}
+            // onMouseLeave={handlePopoverClose}
           >
             New User
           </Button>
+          <Popover
+            id="new-product-popover"
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box
+              sx={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              {/* <AddAgent onClose={handlePopoverClose} /> */}
+            </Box>
+          </Popover>
+        </Stack>
+        <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>
+          <Search
+            label="Search"
+            variant="outlined"
+            size="small"
+            // value={searchText}
+            // onChange={handleSearch}
+          />
         </Stack>
         {/* <UserTableToolbar
           numSelected={selected.length}
@@ -111,10 +175,22 @@ export default function UserPage() {
         /> */}
 
         <Scrollbar>
-          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
-            <DataGrid rows={users} columns={columns} getRowId={(row) => row.id} />
+            <DataGrid
+              rows={users}
+              columns={columns}
+              pagination
+              pageSize={per_page}
+              paginationMode="server"
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+              rowCount={last_Page}
+              loading={!users.length}
+              pageSizeOptions={[10, 25, 100]}
+              getRowId={(row) => row.id}
+            />
           </Box>
+          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
 
           {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
@@ -122,3 +198,7 @@ export default function UserPage() {
     </Container>
   );
 }
+
+// AgentsView.propTypes = {
+//   agents: PropTypes.array,
+// };

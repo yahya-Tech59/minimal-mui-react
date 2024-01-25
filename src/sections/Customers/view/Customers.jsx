@@ -69,7 +69,7 @@ export default function AgentsView() {
 
   useEffect(() => {
     fetchCustomer();
-    console.log('Agents:', customers);
+    console.log('customers:', customers);
   }, []);
 
   // current_page, per_page
@@ -129,7 +129,7 @@ export default function AgentsView() {
             New Customer
           </Button>
           <Popover
-            id="new-agent-popover"
+            id="new-customer-popover"
             open={open}
             anchorEl={anchorEl}
             onClose={handlePopoverClose}
@@ -176,24 +176,20 @@ export default function AgentsView() {
 
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
-            {console.log('Type of agents:', typeof agents)}
             <DataGrid
               rows={customers}
               columns={columns}
               pagination
               pageSize={per_page}
               paginationMode="server"
-              onPageChange={(params) => handlePageChange(params.page)}
-              onPageSizeChange={(params) => handlePageSizeChange(params.pageSize)}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
               rowCount={last_Page}
               loading={!customers.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
             />
           </Box>
-          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
-
-          {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
       </Card>
     </Container>

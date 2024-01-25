@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
-import { Box, Icon, IconButton } from '@mui/material';
-// import { EditUser } from '../EditUser';
-// import { DeleteUser } from '../DeleteUser';
+import { Box, Icon, Popover, IconButton } from '@mui/material';
+
+// import { EditAgent } from './EditAgent';
+// import { DeleteAgent } from './DeleteAgent';
 
 export const columns = [
   { field: 'id', headerName: 'Id', flex: 1 },
@@ -14,10 +15,20 @@ export const columns = [
     field: 'actions',
     headerName: 'Actions',
     flex: 1,
-    RenderCell: ({ row }) => {
-      const [showEditUser, setShowEditUser] = useState(false);
-      const [showDeleteUser, setShowDeleteUser] = useState(false);
+    sortable: false,
+    renderCell: ({ row }) => {
       const [id, setId] = useState(null);
+      const [anchorEl, setAnchorEl] = useState(null);
+
+      const handlePopoverOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+      };
+
+      const handlePopoverClose = () => {
+        setAnchorEl(null);
+      };
+
+      const open = Boolean(anchorEl);
 
       return (
         <Box
@@ -31,9 +42,9 @@ export const columns = [
           }}
         >
           <IconButton
-            onClick={() => {
-              setShowEditUser(true);
+            onClick={(event) => {
               setId(row.id);
+              handlePopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -44,15 +55,30 @@ export const columns = [
               },
             }}
           >
-            <Icon sx={{ fontSize: 20 }}>
+            <Icon sx={{ fontSize: 21 }}>
               <RiEditLine />
             </Icon>
           </IconButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box p={2}>{/* <EditAgent onClose={handlePopoverClose} id={id} /> */}</Box>
+          </Popover>
+
           <IconButton
-            onClick={() => {
-              setShowDeleteUser(true);
+            onClick={(event) => {
               setId(row.id);
-              alert('User Deleted Succesfully');
+              handlePopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -63,31 +89,30 @@ export const columns = [
               },
             }}
           >
-            <Icon sx={{ fontSize: 20 }}>
+            <Icon sx={{ fontSize: 21 }}>
               <RiDeleteBin2Line />
             </Icon>
           </IconButton>
-
-          {showEditUser && (
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {/* <EditUser onClose={() => setShowEditUser(false)} id={id} /> */}
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => {
+              handlePopoverClose();
+            }}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <Box>
+              {/* onClose={() => setShowDeleteAgent(false)} */}
+              {/* <DeleteAgent id={id} /> */}
             </Box>
-          )}
-          {showDeleteUser && (
-            <Box>{/* <DeleteUser onClose={() => setShowDeleteUser(false)} id={id} /> */}</Box>
-          )}
+          </Popover>
         </Box>
       );
     },
@@ -96,5 +121,5 @@ export const columns = [
 
 columns.propTypes = {
   columns: PropTypes.array,
-  [row.id]: PropTypes.number,
+  onClose: PropTypes.func,
 };
