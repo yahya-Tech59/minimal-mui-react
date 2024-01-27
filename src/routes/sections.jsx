@@ -37,7 +37,7 @@ export default function Router() {
         { path: 'agents', element: <AgentsPage /> },
         { path: 'customers', element: <CustomersPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'orders', element: <ordersPage /> },
+        { path: 'orders', element: <OrdersPage /> },
         { path: 'users', element: <UsersPage /> },
         { path: 'signOut', element: <LogoutPage /> },
         { path: '*', element: <Page404 /> },

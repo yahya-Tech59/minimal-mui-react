@@ -54,7 +54,7 @@ export default function CustomersView() {
       if (req.status === 200) {
         const responseData = req.data;
         console.log(responseData);
-        if (responseData && responseData.data && Array.isArray(responseData.data)) {
+        if (responseData && Array.isArray(responseData.data)) {
           setCustomers(responseData.data);
           setLast_Page(responseData.total);
         } else {
@@ -130,15 +130,15 @@ export default function CustomersView() {
           <Popover
             id="new-customer-popover"
             open={open}
-            anchorEl={anchorEl}
+            //anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
             <Box

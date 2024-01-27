@@ -55,7 +55,7 @@ export default function ProductsView() {
       if (req.status === 200) {
         const responseData = req.data;
         console.log(responseData);
-        if (responseData && responseData.data && Array.isArray(responseData.data)) {
+        if (responseData && Array.isArray(responseData.data)) {
           setUsers(responseData.data);
           setLast_Page(responseData.total);
         } else {
