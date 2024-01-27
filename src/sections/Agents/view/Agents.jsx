@@ -55,7 +55,7 @@ export default function AgentsView() {
       if (req.status === 200) {
         const responseData = req.data;
         console.log(responseData);
-        if (responseData && responseData.data && Array.isArray(responseData.data)) {
+        if (responseData && Array.isArray(responseData.data)) {
           setAgents(responseData.data);
           setLast_Page(responseData.total);
         } else {
@@ -142,7 +142,22 @@ export default function AgentsView() {
               horizontal: 'center', // Set horizontal to 'center'
             }}
           >
-            <AddAgent onClose={handlePopoverClose} />
+            <Box
+              sx={{
+                position: 'relative',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+              }}
+            >
+              <AddAgent onClose={handlePopoverClose} />
+            </Box>
           </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '46rem', sm: '19rem' }, mb: 2 }}>
