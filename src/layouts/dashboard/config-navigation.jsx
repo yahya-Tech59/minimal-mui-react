@@ -26,7 +26,7 @@ const navConfig = [
   {
     title: 'Orders',
     path: '/oredrs',
-    icon: icon('ic_user'),
+    icon: icon('ic_cart'),
   },
 
   {
@@ -35,8 +35,8 @@ const navConfig = [
     icon: icon('ic_cart'),
   },
   {
-    title: 'user',
-    path: '/user',
+    title: 'users',
+    path: '/users',
     icon: icon('ic_user'),
   },
 

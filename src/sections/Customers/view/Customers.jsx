@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { PropTypes } from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 // import { Header } from '../../layouts/Header';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,9 +14,9 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-//import { AddCustomer } from '../AddCustomer';
+// import { AddCustomer } from '../AddCustomer';
 
-export default function AgentsView() {
+export default function CustomersView() {
   const [customers, setCustomers] = useState([]);
   const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
@@ -48,7 +48,6 @@ export default function AgentsView() {
             Accept: 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          customers,
         }
       );
 
@@ -182,14 +181,17 @@ export default function AgentsView() {
               pagination
               pageSize={per_page}
               paginationMode="server"
-              onPageChange={handlePageChange}
-              onPageSizeChange={handlePageSizeChange}
+              onPageChange={(params) => handlePageChange(params.page)}
+              onPageSizeChange={(params) => handlePageSizeChange(params.pageSize)}
               rowCount={last_Page}
               loading={!customers.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
             />
           </Box>
+          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
+
+          {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
       </Card>
     </Container>

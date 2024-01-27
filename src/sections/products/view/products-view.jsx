@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { PropTypes } from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 // import { Header } from '../../layouts/Header';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,7 +14,7 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-//import { AddProduct } from '../AddProduct';
+// import { AddProduct } from '../AddProduct';
 
 export default function ProductsView() {
   const [products, setProducts] = useState([]);
@@ -48,7 +48,6 @@ export default function ProductsView() {
             Accept: 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          products,
         }
       );
 

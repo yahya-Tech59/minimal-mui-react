@@ -4,8 +4,8 @@ import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 import { Box, Icon, Popover, IconButton } from '@mui/material';
 
-//import { EditCustomer } from './EditCustomer';
-//import { DeleteCustomer } from './DeleteCustomer';
+// import { EditCustomer } from './EditCustomer';
+// import { DeleteCustomer } from './DeleteCustomer';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },

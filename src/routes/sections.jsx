@@ -10,7 +10,7 @@ export const AgentsPage = lazy(() => import('src/pages/agents'));
 export const CustomersPage = lazy(() => import('src/pages/Customers'));
 export const OrdersPage = lazy(() => import('src/pages/orders'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
-export const UserPage = lazy(() => import('src/pages/user'));
+export const UsersPage = lazy(() => import('src/pages/users'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const LogoutPage = lazy(() => import('src/pages/logout'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -27,20 +27,18 @@ export default function Router() {
       element: (
         <DashboardLayout>
           <Suspense>
-            {/* <ProtectedRoutes>
-            </ProtectedRoutes> */}
             <Outlet />
           </Suspense>
         </DashboardLayout>
       ),
       children: [
         { element: <IndexPage />, index: true },
-        { path: '/dashboard', element: <IndexPage /> },
+        { path: 'dashboard', element: <IndexPage /> },
         { path: 'agents', element: <AgentsPage /> },
         { path: 'customers', element: <CustomersPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'orders', element: <ordersPage /> },
-        { path: 'user', element: <UserPage /> },
+        { path: 'users', element: <UsersPage /> },
         { path: 'signOut', element: <LogoutPage /> },
         { path: '*', element: <Page404 /> },
       ],

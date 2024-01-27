@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { PropTypes } from 'prop-types';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 // import { Header } from '../../layouts/Header';
 import { DataGrid } from '@mui/x-data-grid';

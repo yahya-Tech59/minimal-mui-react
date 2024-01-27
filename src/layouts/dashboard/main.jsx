@@ -11,7 +11,7 @@ import { NAV, HEADER } from './config-layout';
 const SPACING = 8;
 
 export default function Main({ children, sx, ...other }) {
-  const lgUp = useResponsive('up', 'lg');
+  const lgUp = useResponsive('between', 'lg');
 
   return (
     <Box

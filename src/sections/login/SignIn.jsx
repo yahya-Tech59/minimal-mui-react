@@ -33,11 +33,6 @@ export default function SignIn() {
 
   const router = useRouter();
 
-  // const [email, setEmail] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [login, setLogin] = useState([]);
-  // const [showPassword, setShowPassword] = useState(false);
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

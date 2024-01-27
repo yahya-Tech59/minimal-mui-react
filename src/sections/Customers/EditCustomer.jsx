@@ -1,15 +1,16 @@
 import axios from 'axios';
 import * as yup from 'yup';
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Box, Input, InputLabel, Typography } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { IoCloseOutline } from 'react-icons/io5';
-import SubmitButton from '../../components/SubmitButton';
-import ClearButton from '../../components/ClearButton';
+// import { IoCloseOutline } from 'react-icons/io5';
+
 import CloseButton from '../../components/CloseButton';
+import ClearButton from '../../components/ClearButton';
+import SubmitButton from '../../components/SubmitButton';
 
 export const EditAgent = ({ onClose, id }) => {
   const [fullname, setFullName] = useState('');
@@ -40,7 +41,7 @@ export const EditAgent = ({ onClose, id }) => {
   const token = localStorage.getItem('token');
   const fetchEditAgent = async () => {
     try {
-      //setLoading(true);
+      // setLoading(true);
 
       const res = await axios.get(`${baseURL}/api/v1/agents/${id}/edit`, {
         headers: {
