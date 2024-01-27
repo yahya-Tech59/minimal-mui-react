@@ -95,12 +95,12 @@ export const AddAgent = ({ onClose }) => {
               <Typography variant="h4" sx={{ ml: 10 }}>
                 Add New Agent
               </Typography>
-              <Box sx={{ ml: 14 }}>
+              <Box sx={{ ml: 20 }}>
                 <CloseButton onClick={onClose} />
               </Box>
             </Box>
 
-            <Box sx={{ my: 6, ml: 4 }}>
+            <Box sx={{ my: 6, ml: 2 }}>
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
                 <InputLabel>Name</InputLabel>
                 <Input
@@ -190,7 +190,7 @@ export const AddAgent = ({ onClose }) => {
             <Box
               sx={{
                 display: 'flex',
-                gap: 44,
+                gap: 40,
                 ml: 2,
               }}
             >
