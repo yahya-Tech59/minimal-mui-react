@@ -131,15 +131,15 @@ export default function AgentsView() {
           <Popover
             id="new-agent-popover"
             open={open}
-            anchorEl={anchorEl}
+            //anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center', // Set vertical to 'center'
+              horizontal: 'center', // Set horizontal to 'center'
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center', // Set vertical to 'center'
+              horizontal: 'center', // Set horizontal to 'center'
             }}
           >
             <AddAgent onClose={handlePopoverClose} />

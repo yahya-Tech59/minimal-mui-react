@@ -63,20 +63,18 @@ export const columns = [
           </IconButton>
           <Popover
             open={open}
-            anchorEl={anchorEl}
+            //anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
-            <Box p={2}>
-              <EditAgent onClose={handlePopoverClose} id={id} />
-            </Box>
+            <EditAgent onClose={handlePopoverClose} id={id} />
           </Popover>
 
           <IconButton

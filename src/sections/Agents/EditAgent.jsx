@@ -112,7 +112,7 @@ export const EditAgent = ({ onClose, id }) => {
           bgcolor: 'white',
           boxShadow: 2,
           width: '38rem',
-          height: '36rem',
+          height: '38rem',
           borderRadius: 2,
           p: 3,
         }}
@@ -127,7 +127,7 @@ export const EditAgent = ({ onClose, id }) => {
             </Box>
           </Box>
 
-          <Box sx={{ my: 6, ml: 4 }}>
+          <Box sx={{ my: 6, ml: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
               <InputLabel>Name</InputLabel>
               <Input
@@ -217,7 +217,7 @@ export const EditAgent = ({ onClose, id }) => {
           <Box
             sx={{
               display: 'flex',
-              gap: 44,
+              gap: 40,
               ml: 2,
             }}
           >
