@@ -1,8 +1,8 @@
-import axios from '../../Services/axiosConfig';
+import axios from '../../components/axios';
 import { useEffect, useState } from 'react';
 
 import { Box } from '@mui/material';
-import { AddOrderForm } from './AddOrder';
+import { AddOrderForm } from './AddOrderForm';
 
 export const AddOrder = ({ onClose }) => {
   const [product_id, setProduct_id] = useState('');

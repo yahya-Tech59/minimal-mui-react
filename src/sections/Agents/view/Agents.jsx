@@ -15,6 +15,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
 import { AddAgent } from '../AddAgent';
+import { useModalState } from 'src/hooks/useModalState';
 
 export default function AgentsView() {
   // const [showAddAgent, setShowAddAgent] = useState(false);
@@ -23,17 +24,7 @@ export default function AgentsView() {
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
 
   // ?_page=${current_page}&_limit=${per_page}
 
@@ -119,16 +110,16 @@ export default function AgentsView() {
             ml="72rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
-            onClick={handlePopoverOpen}
+            onClick={handleAddPopoverOpen}
             // onMouseLeave={handlePopoverClose}
           >
             New Agent
           </Button>
           <Popover
             id="new-agent-popover"
-            open={open}
+            open={add}
             //anchorEl={anchorEl}
-            onClose={handlePopoverClose}
+            onClose={handleAddPopoverClose}
             anchorOrigin={{
               vertical: 'center',
               horizontal: 'center',
@@ -139,7 +130,7 @@ export default function AgentsView() {
             }}
           >
             <Box>
-              <AddAgent onClose={handlePopoverClose} />
+              <AddAgent onClose={handleAddPopoverClose} />
             </Box>
           </Popover>
         </Stack>

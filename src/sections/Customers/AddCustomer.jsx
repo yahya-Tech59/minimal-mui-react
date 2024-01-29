@@ -1,6 +1,6 @@
 // AddCustomer.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '../../components/axios';
 import { Box } from '@mui/material';
 import AddCustomerForm from './AddCustomerForm';
 

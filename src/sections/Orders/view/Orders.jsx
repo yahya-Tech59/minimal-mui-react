@@ -14,7 +14,8 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-// import { AddCustomer } from '../AddCustomer';
+import { useModalState } from 'src/hooks/useModalState';
+import { AddOrder } from '../AddOrder';
 
 export default function OrdersView() {
   const [orders, setOrders] = useState([]);
@@ -22,17 +23,7 @@ export default function OrdersView() {
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
 
   // ?_page=${current_page}&_limit=${per_page}
   const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
@@ -122,16 +113,16 @@ export default function OrdersView() {
             ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
-            onClick={handlePopoverOpen}
+            onClick={handleAddPopoverOpen}
             // onMouseLeave={handlePopoverClose}
           >
             New Order
           </Button>
           <Popover
             id="new-order-popover"
-            open={open}
+            open={add}
             //anchorEl={anchorEl}
-            onClose={handlePopoverClose}
+            onClose={handleAddPopoverClose}
             anchorOrigin={{
               vertical: 'center',
               horizontal: 'center',
@@ -141,20 +132,8 @@ export default function OrdersView() {
               horizontal: 'center',
             }}
           >
-            <Box
-              sx={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {/* <AddAgent onClose={handlePopoverClose} /> */}
+            <Box>
+              <AddOrder onClose={handleAddPopoverClose} />
             </Box>
           </Popover>
         </Stack>

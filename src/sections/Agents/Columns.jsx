@@ -6,7 +6,7 @@ import { Box, Icon, Popover, IconButton } from '@mui/material';
 
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
-import { useColumnsState } from 'src/hooks/ColumnsState';
+import { useModalState } from 'src/hooks/useModalState';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },
@@ -25,13 +25,13 @@ export const columns = [
         setEditId,
         deleteId,
         setDeleteId,
-        editAnchorEl,
-        deleteAnchorEl,
+        edit,
+        del,
         handleEditPopoverOpen,
         handleEditPopoverClose,
         handleDeletePopoverOpen,
         handleDeletePopoverClose,
-      } = useColumnsState();
+      } = useModalState();
 
       return (
         <Box
@@ -63,7 +63,7 @@ export const columns = [
             </Icon>
           </IconButton>
           <Popover
-            open={Boolean(editAnchorEl)}
+            open={edit}
             //anchorEl={editAnchorEl}
             onClose={handleEditPopoverClose}
             anchorOrigin={{
@@ -97,8 +97,8 @@ export const columns = [
             </Icon>
           </IconButton>
           <Popover
-            open={Boolean(deleteAnchorEl)}
-            anchorEl={deleteAnchorEl}
+            open={del}
+            //anchorEl={deleteAnchorEl}
             onClose={handleDeletePopoverClose}
             anchorOrigin={{
               vertical: 'bottom',
