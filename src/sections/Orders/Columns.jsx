@@ -4,8 +4,8 @@ import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 import { Box, Icon, Popover, IconButton } from '@mui/material';
 
-// import { EditCustomer } from './EditCustomer';
-// import { DeleteCustomer } from './DeleteCustomer';
+import { EditOrder } from './EditOrder';
+import { DeleteOrder } from './DeleteOrder';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },
@@ -109,7 +109,7 @@ export const columns = [
               horizontal: 'left',
             }}
           >
-            <Box p={2}>{/* <EditAgent onClose={handlePopoverClose} id={id} /> */}</Box>
+            <EditOrder onClose={handlePopoverClose} id={id} />
           </Popover>
 
           <IconButton
@@ -147,7 +147,7 @@ export const columns = [
           >
             <Box>
               {/* onClose={() => setShowDeleteAgent(false)} */}
-              {/* <DeleteAgent id={id} /> */}
+              <DeleteOrder id={id} />
             </Box>
           </Popover>
         </Box>

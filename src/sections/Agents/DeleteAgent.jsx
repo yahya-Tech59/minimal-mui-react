@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // import { Context } from "../../../Context/Context";
 
 export const DeleteAgent = ({ id, onClose }) => {
-  const [setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // const { id } = useContext(Context);
 
@@ -14,7 +14,7 @@ export const DeleteAgent = ({ id, onClose }) => {
     const token = localStorage.getItem('token');
 
     try {
-      setLoading(true);
+      //setLoading(true);
       const res = await axios.delete(`${baseUrl}/api/v1/agents/${id}`, {
         headers: {
           'Content-Type': 'application/json',
@@ -25,12 +25,12 @@ export const DeleteAgent = ({ id, onClose }) => {
 
       if (res.status === 200) {
         alert('deleted successfuly');
-        setLoading(false);
+        //setLoading(false);
         onClose();
       }
     } catch (error) {
       alert(error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 

@@ -54,7 +54,7 @@ export default function AgentsView() {
 
       if (req.status === 200) {
         const responseData = req.data;
-        console.log(responseData);
+        //console.log(responseData);
         if (responseData && Array.isArray(responseData.data)) {
           setAgents(responseData.data);
           setLast_Page(responseData.total);
@@ -73,10 +73,6 @@ export default function AgentsView() {
   }, []);
 
   // current_page, per_page
-
-  // useEffect(() => {
-  //   console.log('Agents:', agents);
-  // }, [agents]);
 
   // if (loading === true) {
   //   return (
@@ -134,28 +130,15 @@ export default function AgentsView() {
             //anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
-              vertical: 'center', // Set vertical to 'center'
-              horizontal: 'center', // Set horizontal to 'center'
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'center', // Set vertical to 'center'
-              horizontal: 'center', // Set horizontal to 'center'
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
-            <Box
-              sx={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                width: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
+            <Box>
               <AddAgent onClose={handlePopoverClose} />
             </Box>
           </Popover>
@@ -177,7 +160,7 @@ export default function AgentsView() {
 
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
-            {console.log('Type of agents:', typeof agents)}
+            {/* {console.log('Type of agents:', typeof agents)} */}
             <DataGrid
               rows={agents}
               columns={columns}

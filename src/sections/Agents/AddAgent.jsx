@@ -1,9 +1,9 @@
 import axios from 'axios';
 import * as yup from 'yup';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Box, Stack, Input, InputLabel, Typography } from '@mui/material';
 
@@ -38,10 +38,18 @@ export const AddAgent = ({ onClose }) => {
     resolver: yupResolver(schema),
   });
 
+  const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
+  const token = localStorage.getItem('token');
   const addAgent = async (data) => {
     try {
       setLoading(true);
-      const res = await axios.post('/api/v1/agents', data);
+      const res = await axios.post(`${baseURL}/api/v1/agents`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (res.status === 201) {
         // alert("Agent Registered successfully");

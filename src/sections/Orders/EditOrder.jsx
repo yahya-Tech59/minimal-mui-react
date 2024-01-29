@@ -1,226 +1,355 @@
-import axios from 'axios';
-import * as yup from 'yup';
-import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { Box, Input, InputLabel, Typography } from '@mui/material';
-// import { IoCloseOutline } from 'react-icons/io5';
-
+import * as yup from 'yup';
+import axios from '../../Services/axiosConfig';
+import { IoCloseOutline } from 'react-icons/io5';
+import { useEffect, useState } from 'react';
 import ClearButton from '../../components/ClearButton';
-import CloseButton from '../../components/CloseButton';
 import SubmitButton from '../../components/SubmitButton';
+import {
+  Box,
+  Typography,
+  Button,
+  InputLabel,
+  Icon,
+  Select,
+  MenuItem,
+  ListItem,
+} from '@mui/material';
+import CloseButton from '../../components/CloseButton';
 
-export const EditAgent = ({ onClose, id }) => {
-  const [fullname, setFullName] = useState('');
-  const [description, setDescription] = useState('');
-  const [business, setBusiness] = useState('');
-  const [contact, setContact] = useState('');
-  // const [loading, setLoading] = useState(false);
+export const EditOrder = ({ onClose, id }) => {
+  const [product_id, setProduct_id] = useState('');
+  const [customer, setCustomer] = useState('');
+  const [agent, setAgent] = useState('');
+  const [product_price_id, setProduct_price_id] = useState('');
+  const [product_commission_id, setProduct_commission_id] = useState('');
+  const [status, setStatus] = useState('');
+  const [products, setProducts] = useState([]);
+  const [agents, setAgents] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const handleClear = () => {
+    setProduct_id('');
+    setCustomer('');
+    setAgent('');
+    setProduct_price_id('');
+    setProduct_commission_id('');
+    setStatus('');
+  };
 
   const schema = yup.object().shape({
-    fullname: yup.string().required(),
-    description: yup.string().required(),
-    business: yup.string().required(),
-    phone: yup.number().required(),
+    product_id: yup.number().required(),
+    customer: yup.number().required(),
+    agent: yup.number().required(),
+    product_price_id: yup.number().required(),
+    product_commission_id: yup.number().required(),
+    status: yup.string().required(),
   });
 
   const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const handleClear = () => {
-    setFullName('');
-    setDescription('');
-    setBusiness('');
-    setContact('');
-  };
-
-  const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-  const token = localStorage.getItem('token');
-  const fetchEditAgent = async () => {
-    try {
-      // setLoading(true);
-
-      const res = await axios.get(`${baseURL}/api/v1/agents/${id}/edit`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const res = await axios.get(`/api/v1/products`);
 
       if (res.status === 200) {
-        const agentData = res.data[0];
-        setFullName(agentData?.fullname || '');
-        setDescription(agentData?.description || '');
-        setBusiness(agentData?.business || '');
-        setContact(agentData?.phone || '');
-
-        // setLoading(false);
+        const productsData = await res.data;
+        setProducts(productsData.data);
       }
-    } catch (error) {
-      alert(error);
+    };
+
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      const res = await axios.get(`/api/v1/customers`);
+
+      if (res.status === 200) {
+        const customersData = await res.data;
+        setCustomers(customersData.data);
+      }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  useEffect(() => {
+    const fetchAgents = async () => {
+      const res = await axios.get(`/api/v1/agents`);
+
+      if (res.status === 200) {
+        const agentsData = await res.data;
+        setAgents(agentsData.data);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
+  useEffect(() => {
+    const fetchOrderStatus = async () => {
+      const res = await axios.get(`/api/v1/orders`);
+
+      if (res.status === 200) {
+        const OrderStatusData = await res.data;
+        setOrders(OrderStatusData.data);
+      }
+    };
+
+    fetchOrderStatus();
+  }, []);
+
+  const fetchOrder = async () => {
+    const res = await axios.get(`api/v1/orders/${id}/edit`);
+
+    if (res.status === 200) {
+      const OrderData = res.data[0];
+      setProduct_id(OrderData?.product_id || '');
+      setCustomer(OrderData?.customer || '');
+      setAgent(OrderData?.agent || '');
+      setProduct_price_id(OrderData?.product_price_id || '');
+      setProduct_commission_id(OrderData?.product_commission_id || '');
+      setStatus(OrderData?.status || '');
+
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchEditAgent();
-  });
+    fetchOrder();
+  }, []);
 
-  const editAgent = async () => {
+  const EditOrder = async (data) => {
     try {
-      // setLoading(true);
-      const res = await axios.put(
-        `${baseURL}/api/v1/agents/${id}`,
-        {
-          fullname,
-          description,
-          business,
-          phone: contact,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      setProduct_id(data.product_id);
+      setCustomer(data.customer);
+      setAgent(data.agent);
+      setProduct_price_id(data.product_price_id);
+      setProduct_commission_id(data.product_commission_id);
+      setStatus(data.status);
+
+      setLoading(true);
+      const res = await axios.put(`/api/v1/orders${id}`, {
+        product_id,
+        customer,
+        agent,
+        product_price_id,
+        product_commission_id,
+        status,
+      });
+
       if (res.status === 200) {
-        alert('updated Successfuly');
-        onclose();
+        alert('Order Updated Successfully');
+        onClose();
+        setLoading(false);
       }
     } catch (error) {
-      alert(error);
+      // Handle error appropriately
+      console.error('Error adding order:', error);
+      setLoading(false);
     }
   };
 
-  // if (loading === true) {
-  //   return <Typography variant="h1">Loading...</Typography>;
-  // }
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', bgcolor: '#F9F9F9', position: 'absolute' }}>
       <Box
+        Box
         component="form"
-        onSubmit={handleSubmit(editAgent)}
+        onSubmit={handleSubmit(EditOrder)}
         sx={{
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
           bgcolor: 'white',
           boxShadow: 2,
-          width: '38rem',
-          height: '36rem',
-          borderRadius: 2,
+          width: '39rem',
+          height: '42rem',
           p: 3,
         }}
       >
-        <Box sx={{ mt: 4 }}>
-          <Box sx={{ display: 'flex', gap: 5 }}>
-            <Typography variant="h4" sx={{ ml: 10 }}>
-              Edit Agent
+        <Box sx={{ pb: 16, ml: 5, mt: 8 }}>
+          <Box sx={{ display: 'flex' }}>
+            <Typography variant="h4" sx={{ ml: 8 }}>
+              Edit Order
             </Typography>
-            <Box sx={{ ml: 26 }}>
+            <Box sx={{ ml: 25 }}>
               <CloseButton onClick={onClose} />
             </Box>
           </Box>
 
-          <Box sx={{ my: 6, ml: 4 }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
-              <InputLabel>Name</InputLabel>
-              <Input
-                type="text"
-                {...register('fullname')}
+          <Box sx={{ py: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+              <InputLabel>ProductID</InputLabel>
+              <Select
+                {...register('product_id')}
+                defaultValue={product_id}
+                onChange={(e) => setProduct_id(e.target.value)}
+                placeholder="select product ID"
                 sx={{
-                  bgcolor: '#F9F9F9',
-
-                  mr: 1,
-                  borderRadius: '0.5rem',
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
                   width: '34rem',
-                  '::placeholder': {
-                    pl: 2,
-                    color: '#8A92A6',
-                  },
+                  height: 2,
+                  color: 'black',
                 }}
-                placeholder="john"
-                value={fullname}
-                onChange={(e) => setFullName(e.target.value)}
-              />
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
-              <InputLabel>Description</InputLabel>
-              <Input
-                type="text"
-                {...register('description')}
-                sx={{
-                  bgcolor: '#F9F9F9',
-
-                  mr: 1,
-                  borderRadius: '0.5rem',
-                  width: '34rem',
-                  '::placeholder': {
-                    pl: 2,
-                    color: '#8A92A6',
-                  },
-                }}
-                placeholder="description..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
+                // placeholder="Select product ID"
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select ProductID</ListItem>
+                </MenuItem>
+                {products.map((product) => (
+                  <MenuItem key={product.id} value={product.id}>
+                    <ListItem>{product.name}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
-              <InputLabel>Business </InputLabel>
-              <Input
-                type="text"
-                {...register('business')}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+              <InputLabel>Customer</InputLabel>
+              <Select
+                {...register('customer')}
+                defaultValue={customer}
+                onChange={(e) => setCustomer(e.target.value)}
                 sx={{
-                  bgcolor: '#F9F9F9',
-
-                  mr: 1,
-                  borderRadius: '0.5rem',
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
                   width: '34rem',
-                  '::placeholder': {
-                    pl: 2,
-                    color: '#8A92A6',
-                  },
+                  height: 2,
+                  color: 'black',
                 }}
-                placeholder="web..."
-                value={business}
-                onChange={(e) => setBusiness(e.target.value)}
-              />
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select Customer</ListItem>
+                </MenuItem>
+                {customers.map((cust) => (
+                  <MenuItem key={cust.id} value={cust.id}>
+                    <ListItem>{cust.fullname}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
-              <InputLabel>Contact </InputLabel>
-              <Input
-                type="string"
-                {...register('phone')}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+              <InputLabel>Agent</InputLabel>
+              <Select
+                {...register('agent')}
+                defaultValue={agent}
+                onChange={(e) => setAgent(e.target.value)}
                 sx={{
-                  bgcolor: '#F9F9F9',
-
-                  mr: 1,
-                  borderRadius: '0.5rem',
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
                   width: '34rem',
-                  '::placeholder': {
-                    color: '#8A92A6',
-                  },
+                  height: 2,
+                  color: 'black',
                 }}
-                placeholder="123456789"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
-              />
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select an agent</ListItem>
+                </MenuItem>
+                {agents.map((agent) => (
+                  <MenuItem key={agent.id} value={agent.id}>
+                    <ListItem>{agent.fullname}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+              <InputLabel>Product Price</InputLabel>
+              <Select
+                {...register('product_price_id')}
+                defaultValue={product_price_id}
+                onChange={(e) => setProduct_price_id(e.target.value)}
+                sx={{
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
+                  width: '34rem',
+                  height: 2,
+                  color: 'black',
+                }}
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select Product Price</ListItem>
+                </MenuItem>
+                {products.map((product) => (
+                  <MenuItem key={product.id} value={product.id}>
+                    <ListItem>{product.price}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <InputLabel>Product Commission</InputLabel>
+              <Select
+                {...register('product_commission_id')}
+                defaultValue={product_commission_id}
+                onChange={(e) => setProduct_commission_id(e.target.value)}
+                sx={{
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
+                  width: '34rem',
+                  height: 2,
+                  color: 'black',
+                }}
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select Product Commission</ListItem>
+                </MenuItem>
+                {products.map((product) => (
+                  <MenuItem key={product.id} value={product.id}>
+                    <ListItem>{product.commission}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, py: 0.5 }}>
+              <InputLabel>status</InputLabel>
+              <Select
+                {...register('status')}
+                defaultValue={status}
+                onChange={(e) => setStatus(e.target.value)}
+                sx={{
+                  placeholder: '#707070',
+                  p: 2,
+                  marginRight: 1,
+                  borderRadius: 3,
+                  width: '34rem',
+                  height: 2,
+                  color: 'black',
+                }}
+              >
+                <MenuItem value="" disabled>
+                  <ListItem>Select Order Status</ListItem>
+                </MenuItem>
+                {orders.map((order) => (
+                  <MenuItem key={order.id} value={order.status}>
+                    <ListItem>{order.status_label}</ListItem>
+                  </MenuItem>
+                ))}
+              </Select>
             </Box>
           </Box>
 
-          <Box
-            sx={{
-              display: 'flex',
-              gap: 44,
-              ml: 2,
-            }}
-          >
+          {/* <div className="flex mt-6 gap-4 justify-center ">
+            <input type="checkbox" />
+            <p>I agree With The Terms Of Use</p>
+          </div> */}
+          <Box sx={{ display: 'flex', gap: 33, ml: 5 }}>
             <SubmitButton label="Submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
@@ -228,9 +357,4 @@ export const EditAgent = ({ onClose, id }) => {
       </Box>
     </Box>
   );
-};
-
-EditAgent.propTypes = {
-  onClose: PropTypes.func,
-  id: PropTypes.string,
 };

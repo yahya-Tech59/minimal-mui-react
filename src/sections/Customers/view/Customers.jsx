@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../components/axios';
 // import { PropTypes } from 'prop-types';
 import { useState, useEffect } from 'react';
 
@@ -14,7 +14,7 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-// import { AddCustomer } from '../AddCustomer';
+import { AddCustomer } from '../AddCustomer';
 
 export default function CustomersView() {
   const [customers, setCustomers] = useState([]);
@@ -72,10 +72,6 @@ export default function CustomersView() {
   }, []);
 
   // current_page, per_page
-
-  // useEffect(() => {
-  //   console.log('Agents:', agents);
-  // }, [agents]);
 
   // if (loading === true) {
   //   return (
@@ -141,21 +137,7 @@ export default function CustomersView() {
               horizontal: 'center',
             }}
           >
-            <Box
-              sx={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {/* <AddAgent onClose={handlePopoverClose} /> */}
-            </Box>
+            <AddCustomer onClose={handlePopoverClose} />
           </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>

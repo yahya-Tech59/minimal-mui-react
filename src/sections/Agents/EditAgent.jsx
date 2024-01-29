@@ -41,8 +41,6 @@ export const EditAgent = ({ onClose, id }) => {
   const token = localStorage.getItem('token');
   const fetchEditAgent = async () => {
     try {
-      // setLoading(true);
-
       const res = await axios.get(`${baseURL}/api/v1/agents/${id}/edit`, {
         headers: {
           'Content-Type': 'application/json',
@@ -52,13 +50,9 @@ export const EditAgent = ({ onClose, id }) => {
       });
 
       if (res.status === 200) {
-        const agentData = res.data[0];
-        setFullName(agentData?.fullname || '');
-        setDescription(agentData?.description || '');
-        setBusiness(agentData?.business || '');
-        setContact(agentData?.phone || '');
-
-        // setLoading(false);
+        const agentData = res.data;
+        console.log(agentData);
+        setFullName(agentData.fullname);
       }
     } catch (error) {
       alert(error);
@@ -67,7 +61,7 @@ export const EditAgent = ({ onClose, id }) => {
 
   useEffect(() => {
     fetchEditAgent();
-  });
+  }, [id]);
 
   const editAgent = async () => {
     try {
@@ -120,7 +114,7 @@ export const EditAgent = ({ onClose, id }) => {
         <Box sx={{ mt: 4 }}>
           <Box sx={{ display: 'flex', gap: 5 }}>
             <Typography variant="h4" sx={{ ml: 10 }}>
-              Edit Agent
+              Edit Agent {fullname}
             </Typography>
             <Box sx={{ ml: 26 }}>
               <CloseButton onClick={onClose} />
@@ -130,6 +124,7 @@ export const EditAgent = ({ onClose, id }) => {
           <Box sx={{ my: 6, ml: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
               <InputLabel>Name</InputLabel>
+
               <Input
                 type="text"
                 {...register('fullname')}

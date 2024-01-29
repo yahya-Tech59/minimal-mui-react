@@ -4,7 +4,7 @@ import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 import { Box, Icon, Popover, IconButton } from '@mui/material';
 
-// import { EditCustomer } from './EditCustomer';
+import { EditCustomer } from './EditCustomer';
 // import { DeleteCustomer } from './DeleteCustomer';
 
 export const columns = [
@@ -63,18 +63,18 @@ export const columns = [
           </IconButton>
           <Popover
             open={open}
-            anchorEl={anchorEl}
+            // anchorEl={anchorEl}
             onClose={handlePopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
-            <Box p={2}>{/* <EditAgent onClose={handlePopoverClose} id={id} /> */}</Box>
+            <EditCustomer onClose={handlePopoverClose} id={id} />
           </Popover>
 
           <IconButton

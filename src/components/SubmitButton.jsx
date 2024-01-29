@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@mui/material';
 
-const ClearButton = ({ label, onClick }) => (
+const SubmitButton = ({ label, onClick }) => (
   <Button
     type="button"
     onClick={onClick}
@@ -24,9 +24,9 @@ const ClearButton = ({ label, onClick }) => (
   </Button>
 );
 
-export default ClearButton;
+export default SubmitButton;
 
-ClearButton.propTypes = {
+SubmitButton.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
