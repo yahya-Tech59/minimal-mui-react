@@ -69,16 +69,7 @@ export const columns = [
       } = useModalState();
 
       return (
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            justifyContent: 'center',
-            ':hover': {
-              color: 'black',
-            },
-          }}
-        >
+        <Box display="flex" gap={2} justifyContent="center">
           <IconButton
             onClick={(event) => {
               setEditId(row.id);

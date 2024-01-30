@@ -132,9 +132,7 @@ export default function OrdersView() {
               horizontal: 'center',
             }}
           >
-            <Box>
-              <AddOrder onClose={handleAddPopoverClose} />
-            </Box>
+            <AddOrder onClose={handleAddPopoverClose} />
           </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>

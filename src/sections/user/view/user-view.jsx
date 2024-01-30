@@ -15,25 +15,17 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
 
-// import { AddProduct } from '../AddProduct';
+import { AddUser } from '../AddUser';
+import { useModalState } from 'src/hooks/useModalState';
 
-export default function ProductsView() {
+export default function UsersView() {
   const [users, setUsers] = useState([]);
   const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
+  const [loading, setLoading] = useState(false);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
 
   // ?_page=${current_page}&_limit=${per_page}
 
@@ -74,17 +66,13 @@ export default function ProductsView() {
 
   // current_page, per_page
 
-  // useEffect(() => {
-  //   console.log('Agents:', agents);
-  // }, [agents]);
-
-  // if (loading === true) {
-  //   return (
-  //     <Typography variant="h2" sx={{ mr: '43rem' }}>
-  //       Loading...
-  //     </Typography>
-  //   );
-  // }
+  if (loading === true) {
+    return (
+      <Typography variant="h2" sx={{ mr: '43rem' }}>
+        Loading...
+      </Typography>
+    );
+  }
 
   const handlePageChange = (newPage) => {
     setCurrent_page(newPage);
@@ -109,54 +97,32 @@ export default function ProductsView() {
         >
           <Typography variant="h4">Users</Typography>
 
-          {/* <Button
-            variant="contained"
-            bgcolor="#3A57E8"
-            ml="72rem"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Agent
-          </Button> */}
           <Button
             variant="contained"
             bgcolor="#3A57E8"
             ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
-            onClick={handlePopoverOpen}
+            onClick={handleAddPopoverOpen}
             // onMouseLeave={handlePopoverClose}
           >
             New User
           </Button>
           <Popover
             id="new-product-popover"
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handlePopoverClose}
+            open={add}
+            //anchorEl={anchorEl}
+            onClose={handleAddPopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
-            <Box
-              sx={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {/* <AddAgent onClose={handlePopoverClose} /> */}
-            </Box>
+            <AddUser onClose={handleAddPopoverClose} />
           </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>

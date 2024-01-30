@@ -4,8 +4,9 @@ import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
 import { Box, Icon, Popover, IconButton } from '@mui/material';
 
-// import { EditAgent } from './EditAgent';
-// import { DeleteAgent } from './DeleteAgent';
+import { EditUser } from './EditUsers';
+import { DeleteUser } from './DeleteUser';
+import { useModalState } from 'src/hooks/useModalState';
 
 export const columns = [
   { field: 'id', headerName: 'Id', flex: 1 },
@@ -17,18 +18,18 @@ export const columns = [
     flex: 1,
     sortable: false,
     renderCell: ({ row }) => {
-      const [id, setId] = useState(null);
-      const [anchorEl, setAnchorEl] = useState(null);
-
-      const handlePopoverOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-      };
-
-      const handlePopoverClose = () => {
-        setAnchorEl(null);
-      };
-
-      const open = Boolean(anchorEl);
+      const {
+        editId,
+        setEditId,
+        deleteId,
+        setDeleteId,
+        edit,
+        del,
+        handleEditPopoverOpen,
+        handleEditPopoverClose,
+        handleDeletePopoverOpen,
+        handleDeletePopoverClose,
+      } = useModalState();
 
       return (
         <Box
@@ -43,8 +44,8 @@ export const columns = [
         >
           <IconButton
             onClick={(event) => {
-              setId(row.id);
-              handlePopoverOpen(event);
+              setEditId(row.id);
+              handleEditPopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -60,25 +61,25 @@ export const columns = [
             </Icon>
           </IconButton>
           <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handlePopoverClose}
+            open={edit}
+            //anchorEl={editAnchorEl}
+            onClose={handleEditPopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
+              vertical: 'center',
+              horizontal: 'center',
             }}
           >
-            <Box p={2}>{/* <EditAgent onClose={handlePopoverClose} id={id} /> */}</Box>
+            <EditUser onClose={handleEditPopoverClose} id={editId} />
           </Popover>
 
           <IconButton
             onClick={(event) => {
-              setId(row.id);
-              handlePopoverOpen(event);
+              setDeleteId(row.id);
+              handleDeletePopoverOpen(event);
             }}
             sx={{
               bgcolor: '#3A57E8',
@@ -94,11 +95,9 @@ export const columns = [
             </Icon>
           </IconButton>
           <Popover
-            open={open}
-            anchorEl={anchorEl}
-            onClose={() => {
-              handlePopoverClose();
-            }}
+            open={del}
+            //anchorEl={deleteAnchorEl}
+            onClose={handleDeletePopoverClose}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'left',
@@ -109,8 +108,7 @@ export const columns = [
             }}
           >
             <Box>
-              {/* onClose={() => setShowDeleteAgent(false)} */}
-              {/* <DeleteAgent id={id} /> */}
+              <DeleteUser id={deleteId} />
             </Box>
           </Popover>
         </Box>

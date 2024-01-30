@@ -7,6 +7,7 @@ import { Box, Icon, Popover, IconButton } from '@mui/material';
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
 import { useModalState } from 'src/hooks/useModalState';
+import { de } from 'date-fns/locale';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },

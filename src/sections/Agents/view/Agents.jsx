@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../components/axios';
 // import { PropTypes } from 'prop-types';
 import { useState, useEffect } from 'react';
 
@@ -29,19 +29,8 @@ export default function AgentsView() {
   // ?_page=${current_page}&_limit=${per_page}
 
   const fetchAgent = async () => {
-    const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-    const token = localStorage.getItem('token');
     try {
-      const req = await axios.get(
-        `${baseURL}/api/v1/agents?page=${current_page}&_limit=${per_page}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const req = await axios.get(`/api/v1/agents?page=${current_page}&_limit=${per_page}`);
 
       if (req.status === 200) {
         const responseData = req.data;

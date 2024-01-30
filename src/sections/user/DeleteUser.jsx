@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../components/axios';
 
-export const DeleteProduct = ({ id, onClose }) => {
+export const DeleteUser = ({ id, onClose }) => {
   const [loading, setLoading] = useState(false);
 
-  const deleteProduct = async () => {
+  const deleteUser = async () => {
     try {
       setLoading(true);
-      const res = await axios.delete(`/api/v1/products/${id}`);
+      const res = await axios.delete(`/api/v1/users/${id}`);
 
       if (res.status === 204) {
         setLoading(false);
@@ -20,7 +20,7 @@ export const DeleteProduct = ({ id, onClose }) => {
   };
 
   useEffect(() => {
-    deleteProduct();
+    deleteUser();
   }, [id]);
   //   return (
   //     <div className="flex items-center justify-center h-full">

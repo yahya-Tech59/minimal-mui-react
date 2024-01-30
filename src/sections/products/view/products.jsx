@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../components/axios';
 // import { PropTypes } from 'prop-types';
 import { useState, useEffect } from 'react';
 
@@ -14,7 +14,8 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-// import { AddProduct } from '../AddProduct';
+import { useModalState } from 'src/hooks/useModalState';
+import { AddProduct } from '../AddProduct';
 
 export default function ProductsView() {
   const [products, setProducts] = useState([]);
@@ -22,34 +23,13 @@ export default function ProductsView() {
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
 
   // ?_page=${current_page}&_limit=${per_page}
 
   const fetchProduct = async () => {
-    const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-    const token = localStorage.getItem('token');
     try {
-      const req = await axios.get(
-        `${baseURL}/api/v1/products?page=${current_page}&_limit=${per_page}`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const req = await axios.get(`/api/v1/products?page=${current_page}&_limit=${per_page}`);
 
       if (req.status === 200) {
         const responseData = req.data;
@@ -72,10 +52,6 @@ export default function ProductsView() {
   }, []);
 
   // current_page, per_page
-
-  // useEffect(() => {
-  //   console.log('Agents:', agents);
-  // }, [agents]);
 
   // if (loading === true) {
   //   return (
@@ -108,30 +84,21 @@ export default function ProductsView() {
         >
           <Typography variant="h4">Products</Typography>
 
-          {/* <Button
-            variant="contained"
-            bgcolor="#3A57E8"
-            ml="72rem"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Agent
-          </Button> */}
           <Button
             variant="contained"
             bgcolor="#3A57E8"
             ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
-            onClick={handlePopoverOpen}
-            // onMouseLeave={handlePopoverClose}
+            onClick={handleAddPopoverOpen}
           >
             New Product
           </Button>
           <Popover
             id="new-product-popover"
-            open={open}
+            open={add}
             //anchorEl={anchorEl}
-            onClose={handlePopoverClose}
+            onClose={handleAddPopoverClose}
             anchorOrigin={{
               vertical: 'center',
               horizontal: 'center',
@@ -141,21 +108,7 @@ export default function ProductsView() {
               horizontal: 'center',
             }}
           >
-            <Box
-              sx={{
-                position: 'relative',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'rgba(0, 0, 0, 0.2)',
-              }}
-            >
-              {/* <AddAgent onClose={handlePopoverClose} /> */}
-            </Box>
+            <AddProduct onClose={handleAddPopoverClose} />
           </Popover>
         </Stack>
         <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>
