@@ -58,8 +58,8 @@ export const AddProduct = ({ onClose }) => {
           gap: 1,
           bgcolor: 'white',
           boxShadow: 2,
-          width: '34rem',
-          height: '35rem',
+          width: '37rem',
+          height: '36rem',
           borderRadius: 2,
           p: 3,
         }}
@@ -69,7 +69,7 @@ export const AddProduct = ({ onClose }) => {
             <Typography variant="h4" sx={{ ml: 7 }}>
               Add New Product
             </Typography>
-            <Box sx={{ ml: 7 }}>
+            <Box sx={{ ml: 17 }}>
               <CloseButton onClick={onClose} />
             </Box>
           </Box>
@@ -152,7 +152,7 @@ export const AddProduct = ({ onClose }) => {
               ml: 2,
             }}
           >
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>

@@ -216,7 +216,7 @@ export const EditAgent = ({ onClose, id }) => {
               ml: 2,
             }}
           >
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>

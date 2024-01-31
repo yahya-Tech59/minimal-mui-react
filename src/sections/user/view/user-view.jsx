@@ -17,10 +17,10 @@ import { columns } from '../Columns';
 
 import { AddUser } from '../AddUser';
 import { useModalState } from 'src/hooks/useModalState';
+//import { Pagination } from 'src/components/Pagination';
 
 export default function UsersView() {
   const [users, setUsers] = useState([]);
-  const [current_page, setCurrent_page] = useState(1);
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ export default function UsersView() {
 
   // ?_page=${current_page}&_limit=${per_page}
 
-  const fetchUser = async () => {
+  const fetchUser = async (current_page) => {
     const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     const token = localStorage.getItem('token');
     try {
@@ -74,14 +74,10 @@ export default function UsersView() {
     );
   }
 
-  const handlePageChange = (newPage) => {
-    setCurrent_page(newPage);
-  };
-
-  const handlePageSizeChange = (newPageSize) => {
-    setPer_page(newPageSize);
-    setCurrent_page(1);
-  };
+  // const handlePageSizeChange = (newPageSize) => {
+  //   setPer_page(newPageSize);
+  //   setCurrent_page(1);
+  // };
 
   return (
     <Container>
@@ -142,24 +138,10 @@ export default function UsersView() {
 
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
-            <DataGrid
-              rows={users}
-              columns={columns}
-              pagination
-              pageSize={per_page}
-              paginationMode="server"
-              onPageChange={handlePageChange}
-              onPageSizeChange={handlePageSizeChange}
-              rowCount={last_Page}
-              loading={!users.length}
-              pageSizeOptions={[10, 25, 100]}
-              getRowId={(row) => row.id}
-            />
+            <DataGrid rows={users} columns={columns} getRowId={(row) => row.id} />
           </Box>
-          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
-
-          {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
+        {/* <Pagination /> */}
       </Card>
     </Container>
   );

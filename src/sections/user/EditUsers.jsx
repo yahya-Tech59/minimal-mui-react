@@ -77,7 +77,7 @@ export const EditUser = ({ onClose }) => {
           p: 3,
         }}
       >
-        <Box sx={{ pb: 2, ml: 5, mt: 4 }}>
+        <Box sx={{ pb: 2, ml: 2, mt: 4 }}>
           <Box sx={{ display: 'flex' }}>
             <Typography variant="h4" sx={{ ml: 3 }}>
               Edit User
@@ -183,7 +183,7 @@ export const EditUser = ({ onClose }) => {
           </Box>
 
           <Box sx={{ display: 'flex', gap: 32 }}>
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>

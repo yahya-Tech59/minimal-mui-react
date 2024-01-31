@@ -161,7 +161,7 @@ const AddCustomerForm = ({
             mt: 7,
           }}
         >
-          <SubmitButton label="Submit" />
+          <SubmitButton label="Submit" type="submit" />
           <ClearButton label="Clear" onClick={onClear} />
         </Box>
       </Box>

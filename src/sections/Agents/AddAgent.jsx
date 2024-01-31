@@ -202,7 +202,7 @@ export const AddAgent = ({ onClose }) => {
                 ml: 2,
               }}
             >
-              <SubmitButton label="Submit" />
+              <SubmitButton type="submit" label="Submit" />
               <ClearButton label="Clear" onClick={handleClear} />
             </Box>
           </Box>

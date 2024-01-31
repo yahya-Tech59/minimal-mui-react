@@ -75,8 +75,8 @@ export const EditProduct = ({ onClose, id }) => {
           gap: 1,
           bgcolor: 'white',
           boxShadow: 2,
-          width: '32rem',
-          height: '32rem',
+          width: '36rem',
+          height: '35rem',
           borderRadius: 2,
           p: 3,
         }}
@@ -86,12 +86,12 @@ export const EditProduct = ({ onClose, id }) => {
             <Typography variant="h4" sx={{ ml: 7 }}>
               Edit Product
             </Typography>
-            <Box sx={{ ml: 14 }}>
+            <Box sx={{ ml: 18 }}>
               <CloseButton onClick={onClose} />
             </Box>
           </Box>
 
-          <Box sx={{ py: 5 }}>
+          <Box sx={{ py: 5, ml: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, my: 3 }}>
               <InputLabel>ProductName</InputLabel>
               <Input
@@ -169,7 +169,7 @@ export const EditProduct = ({ onClose, id }) => {
               ml: 2,
             }}
           >
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>

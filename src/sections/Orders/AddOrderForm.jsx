@@ -281,7 +281,7 @@ export const AddOrderForm = ({
         </Box>
 
         <Box sx={{ display: 'flex', gap: 33, ml: 5, mt: 2 }}>
-          <SubmitButton label="Submit" />
+          <SubmitButton label="Submit" type="submit" />
           <ClearButton label="Clear" onClick={onClear} />
         </Box>
       </Box>

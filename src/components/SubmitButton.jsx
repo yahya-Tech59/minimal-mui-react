@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@mui/material';
 
-const SubmitButton = ({ label, onClick }) => (
+const SubmitButton = ({ label, onClick, type }) => (
   <Button
-    type="button"
+    type={type}
     onClick={onClick}
     sx={{
       p: 3,

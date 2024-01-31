@@ -350,7 +350,7 @@ export const EditOrder = ({ onClose, id }) => {
             <p>I agree With The Terms Of Use</p>
           </div> */}
           <Box sx={{ display: 'flex', gap: 33, ml: 5 }}>
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>
