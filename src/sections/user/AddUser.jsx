@@ -23,7 +23,7 @@ export const AddUser = ({ onClose }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [roles, setRoles] = useState('');
+  const [roles, setRoles] = useState([]);
   const [role, setRole] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -193,7 +193,7 @@ export const AddUser = ({ onClose }) => {
           </Box>
 
           <Box sx={{ display: 'flex', gap: 32 }}>
-            <SubmitButton label="Submit" />
+            <SubmitButton label="Submit" type="submit" />
             <ClearButton label="Clear" onClick={handleClear} />
           </Box>
         </Box>
