@@ -11,6 +11,7 @@ export const CustomersPage = lazy(() => import('src/pages/Customers'));
 export const OrdersPage = lazy(() => import('src/pages/orders'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const UsersPage = lazy(() => import('src/pages/users'));
+export const PermissionsPage = lazy(() => import('src/pages/permissions'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const LogoutPage = lazy(() => import('src/pages/logout'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
@@ -39,10 +40,15 @@ export default function Router() {
         { path: 'products', element: <ProductsPage /> },
         { path: 'orders', element: <OrdersPage /> },
         { path: 'users', element: <UsersPage /> },
+        { path: 'permissions', element: <PermissionsPage /> },
         { path: 'signOut', element: <LogoutPage /> },
-        { path: '*', element: <Page404 /> },
       ],
     },
+    {
+      path: '*',
+      element: <Page404 />,
+    },
+
     // {
     //   path: '',
     //   element: <Navigate to="/404" replace />,

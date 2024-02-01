@@ -14,32 +14,31 @@ import { Search } from 'src/components/Search';
 import Scrollbar from 'src/components/scrollbar';
 
 import { columns } from '../Columns';
-import { AddAgent } from '../AddAgent';
-import { useModalState } from 'src/hooks/useModalState';
 
-export default function AgentsView() {
-  // const [showAddAgent, setShowAddAgent] = useState(false);
-  const [agents, setAgents] = useState([]);
-  const [current_page, setCurrent_page] = useState(1);
+// import { useModalState } from 'src/hooks/useModalState';
+//import { Pagination } from 'src/components/Pagination';
+
+export default function PermissionsView() {
+  const [permissions, setPermissions] = useState([]);
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
-  const [searchText, setSearchText] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
+  //   const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
 
   // ?_page=${current_page}&_limit=${per_page}
 
-  const fetchAgent = async () => {
+  const fetchUser = async (current_page) => {
+    // const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
+    // const token = localStorage.getItem('token');
     try {
-      const req = await axios.get(
-        `/api/v1/agents?page=${current_page}&_limit=${per_page}&q=${searchText}`
-      );
+      const req = await axios.get(`/api/v1/permissions?page=${current_page}&_limit=${per_page}`);
 
       if (req.status === 200) {
         const responseData = req.data;
         console.log(responseData);
         if (responseData && Array.isArray(responseData.data)) {
-          setAgents(responseData.data);
+          setPermissions(responseData.data);
           setLast_Page(responseData.total);
         } else {
           console.error('Invalid data structure received from the API:', responseData);
@@ -51,32 +50,24 @@ export default function AgentsView() {
   };
 
   useEffect(() => {
-    fetchAgent();
-    console.log('Agents:', agents);
+    fetchUser();
+    console.log('permissions:', permissions);
   }, []);
 
   // current_page, per_page
 
-  // if (loading === true) {
-  //   return (
-  //     <Typography variant="h2" sx={{ mr: '43rem' }}>
-  //       Loading...
-  //     </Typography>
-  //   );
-  // }
+  if (loading === true) {
+    return (
+      <Typography variant="h2" sx={{ mr: '43rem' }}>
+        Loading...
+      </Typography>
+    );
+  }
 
-  const handleSearch = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const handlePageChange = (newPage) => {
-    setCurrent_page(newPage);
-  };
-
-  const handlePageSizeChange = (newPageSize) => {
-    setPer_page(newPageSize);
-    setCurrent_page(1);
-  };
+  // const handlePageSizeChange = (newPageSize) => {
+  //   setPer_page(newPageSize);
+  //   setCurrent_page(1);
+  // };
 
   return (
     <Container>
@@ -90,29 +81,21 @@ export default function AgentsView() {
           position="relative"
           top={6}
         >
-          <Typography variant="h4">Agents</Typography>
+          <Typography variant="h4">Permissions</Typography>
 
           {/* <Button
             variant="contained"
             bgcolor="#3A57E8"
-            ml="72rem"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Agent
-          </Button> */}
-          <Button
-            variant="contained"
-            bgcolor="#3A57E8"
-            ml="72rem"
+            ml="70rem"
             startIcon={<Iconify icon="eva:plus-fill" />}
             aria-describedby="new-agent-popover"
             onClick={handleAddPopoverOpen}
             // onMouseLeave={handlePopoverClose}
           >
-            New Agent
+            New User
           </Button>
           <Popover
-            id="new-agent-popover"
+            id="new-product-popover"
             open={add}
             //anchorEl={anchorEl}
             onClose={handleAddPopoverClose}
@@ -125,18 +108,14 @@ export default function AgentsView() {
               horizontal: 'center',
             }}
           >
-            <Box>
-              <AddAgent onClose={handleAddPopoverClose} />
-            </Box>
-          </Popover>
+            <AddUser onClose={handleAddPopoverClose} />
+          </Popover> */}
         </Stack>
-        <Stack sx={{ ml: { md: '46rem', sm: '19rem' }, mb: 2 }}>
+        <Stack sx={{ ml: { md: '44rem', sm: '19rem' }, mb: 2 }}>
           <Search
             label="Search"
             variant="outlined"
             size="small"
-            value={searchText}
-            onChange={handleSearch}
             // value={searchText}
             // onChange={handleSearch}
           />
@@ -149,25 +128,10 @@ export default function AgentsView() {
 
         <Scrollbar>
           <Box sx={{ height: 630, width: '95%', ml: { md: 5, sm: 3 }, mb: 4 }}>
-            {/* {console.log('Type of agents:', typeof agents)} */}
-            <DataGrid
-              rows={agents}
-              columns={columns}
-              pagination
-              pageSize={per_page}
-              paginationMode="server"
-              onPageChange={(params) => handlePageChange(params.page)}
-              onPageSizeChange={(params) => handlePageSizeChange(params.pageSize)}
-              rowCount={last_Page}
-              loading={!agents.length}
-              pageSizeOptions={[10, 25, 100]}
-              getRowId={(row) => row.id}
-            />
+            <DataGrid rows={permissions} columns={columns} getRowId={(row) => row.id} />
           </Box>
-          {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
-
-          {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
+        {/* <Pagination /> */}
       </Card>
     </Container>
   );

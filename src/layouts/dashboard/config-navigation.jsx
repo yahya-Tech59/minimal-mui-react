@@ -39,7 +39,11 @@ const navConfig = [
     path: '/users',
     icon: icon('ic_user'),
   },
-
+  {
+    title: 'permissions',
+    path: '/permissions',
+    icon: icon('ic_blog'),
+  },
   {
     title: 'signOut',
     path: '/signOut',

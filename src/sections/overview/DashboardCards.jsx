@@ -23,7 +23,7 @@ export default function DashboardCards({ hide, title, total, sx, year }) {
       }}
     >
       <Stack spacing={0.5}>
-        <Box display="flex" justifyContent="space-between">
+        <Box display="flex">
           <Typography variant="subtitle1" sx={{ color: 'text.disabled' }}>
             {hide}
           </Typography>
