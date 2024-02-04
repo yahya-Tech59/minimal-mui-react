@@ -17,7 +17,7 @@ export default function DashboardCards({ hide, title, total, sx, year }) {
       direction="row"
       sx={{
         px: 3,
-        py: 4,
+        py: 4, 
         borderRadius: 2,
         ...sx,
       }}
