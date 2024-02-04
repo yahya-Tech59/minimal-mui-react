@@ -48,11 +48,6 @@ export default function Router() {
       path: '*',
       element: <Page404 />,
     },
-
-    // {
-    //   path: '',
-    //   element: <Navigate to="/404" replace />,
-    // },
   ]);
 
   return routes;
