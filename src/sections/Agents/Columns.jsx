@@ -2,12 +2,11 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
-import { Box, Icon, Popover, IconButton } from '@mui/material';
+import { Box, Icon, Popover, IconButton, Menu, MenuItem, Stack } from '@mui/material';
 
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
 import { useModalState } from 'src/hooks/useModalState';
-import { de } from 'date-fns/locale';
 
 export const columns = [
   { field: 'id', headerName: 'No', flex: 1 },
@@ -18,7 +17,7 @@ export const columns = [
   {
     field: 'actions',
     headerName: 'Actions',
-    flex: 1,
+    // flex: 1,
     sortable: false,
     renderCell: ({ row }) => {
       const {
@@ -34,81 +33,78 @@ export const columns = [
         handleDeletePopoverClose,
       } = useModalState();
 
+      const [menuAnchor, setMenuAnchor] = React.useState(null);
+
+      const handleMenuOpen = (event) => {
+        setMenuAnchor(event.currentTarget);
+      };
+
+      const handleMenuClose = () => {
+        setMenuAnchor(null);
+      };
+
       return (
         <Box
           sx={{
             display: 'flex',
             gap: 2,
             justifyContent: 'center',
+            mr: 122,
             ':hover': {
               color: 'black',
             },
           }}
         >
-          <IconButton
-            onClick={(event) => {
-              setEditId(row.id);
-              handleEditPopoverOpen(event);
-            }}
-            sx={{
-              bgcolor: '#3A57E8',
-              color: 'white',
-              borderRadius: '100%',
-              ':hover': {
-                bgcolor: '#4562f7',
-              },
-            }}
-          >
-            <Icon sx={{ fontSize: 21 }}>
-              <RiEditLine />
+          <IconButton onClick={handleMenuOpen}>
+            <Icon sx={{ fontSize: 21, fontWeight: 'semiBold', transform: 'rotate(90deg)' }}>
+              ...
             </Icon>
           </IconButton>
+
+          <Menu
+            anchorEl={menuAnchor}
+            open={Boolean(menuAnchor)}
+            onClose={handleMenuClose}
+            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+            transformOrigin={{ vertical: 'center', horizontal: 'center' }}
+          >
+            <MenuItem
+              onClick={() => {
+                setEditId(row.id);
+                handleEditPopoverOpen();
+                handleMenuClose();
+              }}
+            >
+              <RiEditLine />
+              Edit
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setDeleteId(row.id);
+                handleDeletePopoverOpen();
+                handleMenuClose();
+              }}
+              display="flex"
+            >
+              <RiDeleteBin2Line />
+              Delete
+            </MenuItem>
+          </Menu>
+
           <Popover
             open={edit}
-            //anchorEl={editAnchorEl}
             onClose={handleEditPopoverClose}
-            anchorOrigin={{
-              vertical: 'center',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'center',
-              horizontal: 'center',
-            }}
+            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+            transformOrigin={{ vertical: 'center', horizontal: 'center' }}
           >
             <EditAgent onClose={handleEditPopoverClose} id={editId} />
           </Popover>
 
-          <IconButton
-            onClick={(event) => {
-              setDeleteId(row.id);
-              handleDeletePopoverOpen(event);
-            }}
-            sx={{
-              bgcolor: '#3A57E8',
-              color: 'white',
-              borderRadius: '100%',
-              ':hover': {
-                bgcolor: '#4562f7',
-              },
-            }}
-          >
-            <Icon sx={{ fontSize: 21 }}>
-              <RiDeleteBin2Line />
-            </Icon>
-          </IconButton>
           <Popover
             open={del}
-            //anchorEl={deleteAnchorEl}
             onClose={handleDeletePopoverClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
           >
             <Box>
               <DeleteAgent id={deleteId} />

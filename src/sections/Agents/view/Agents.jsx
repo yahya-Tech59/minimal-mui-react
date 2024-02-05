@@ -79,7 +79,7 @@ export default function AgentsView() {
   };
 
   return (
-    <Container>
+    <Box>
       <Card width={{ md: '100%' }}>
         <Stack
           direction="row"
@@ -162,6 +162,14 @@ export default function AgentsView() {
               loading={!agents.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
+              // headerHeight={60} // Adjust header font size
+              // rowHeight={60} // Adjust row font size
+              sx={{
+                fontSize: 17,
+                // '& .MuiDataGrid-cell:hover': {
+                //   color: 'primary.main',
+                // },
+              }}
             />
           </Box>
           {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
@@ -169,7 +177,7 @@ export default function AgentsView() {
           {/* {notFound && <TableNoData query={filterName} />} */}
         </Scrollbar>
       </Card>
-    </Container>
+    </Box>
   );
 }
 
