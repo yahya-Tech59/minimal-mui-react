@@ -17,7 +17,7 @@ import { columns } from '../Columns';
 // import { useModalState } from 'src/hooks/useModalState';
 //import { Pagination } from 'src/components/Pagination';
 
-export default function PermissionsView() {
+export default function PermissionsView() {  
   const [permissions, setPermissions] = useState([]);
   const [per_page, setPer_page] = useState(10);
   const [last_Page, setLast_Page] = useState(25);
@@ -28,11 +28,13 @@ export default function PermissionsView() {
   // ?_page=${current_page}&_limit=${per_page}
 
   const fetchUser = async (current_page) => {
+    // const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
+    // const token = localStorage.getItem('token');  
     try {
       const req = await axios.get(`/api/v1/permissions?page=${current_page}&_limit=${per_page}`);
 
       if (req.status === 200) {
-        const responseData = req.data;
+        const responseData = req.data; 
         console.log(responseData);
         if (responseData && Array.isArray(responseData.data)) {
           setPermissions(responseData.data);
