@@ -30,7 +30,7 @@ export default function PermissionsView() {
   const fetchPermission = async (current_page) => {
     // const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
     // const token = localStorage.getItem('token');
-    try { 
+    try {
       const req = await axios.get(`/api/v1/permissions?page=${current_page}&_limit=${per_page}`);
 
       if (req.status === 200) {
@@ -49,7 +49,7 @@ export default function PermissionsView() {
   };
 
   useEffect(() => {
-    fetchUser();
+    fetchPermission();
     console.log('permissions:', permissions);
   }, []);
 
