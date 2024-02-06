@@ -28,8 +28,6 @@ export default function PermissionsView() {
   // ?_page=${current_page}&_limit=${per_page}
 
   const fetchUser = async (current_page) => {
-    // const baseURL = 'https://spiky-crater-dep2vxlep8.ploi.online';
-    // const token = localStorage.getItem('token');
     try {
       const req = await axios.get(`/api/v1/permissions?page=${current_page}&_limit=${per_page}`);
 

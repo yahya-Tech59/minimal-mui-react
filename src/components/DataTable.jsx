@@ -1,83 +1,8 @@
-import axios from '../../../components/axios';
-// import { PropTypes } from 'prop-types';
-import { useState, useEffect } from 'react';
-
-// import { Header } from '../../layouts/Header';
-import { DataGrid } from '@mui/x-data-grid';
-
-// import { IoMdAdd } from 'react-icons/io';
-// import { Search } from '../../components/Search';
+import React from 'react';
 import { Box, Card, Stack, Button, Popover, Container, Typography } from '@mui/material';
+import Scrollbar from './scrollbar';
 
-import Iconify from 'src/components/iconify';
-import { Search } from 'src/components/Search';
-import Scrollbar from 'src/components/scrollbar';
-
-import { columns } from '../Columns';
-import { AddAgent } from '../AddAgent';
-import { useModalState } from 'src/hooks/useModalState';
-
-export default function AgentsView() {
-  // const [showAddAgent, setShowAddAgent] = useState(false);
-  const [agents, setAgents] = useState([]);
-  const [current_page, setCurrent_page] = useState(1);
-  const [per_page, setPer_page] = useState(10);
-  const [last_Page, setLast_Page] = useState(25);
-  const [searchText, setSearchText] = useState('');
-
-  const { add, handleAddPopoverOpen, handleAddPopoverClose } = useModalState();
-
-  // ?_page=${current_page}&_limit=${per_page}
-
-  const fetchAgent = async () => {
-    try {
-      const req = await axios.get(
-        `/api/v1/agents?page=${current_page}&_limit=${per_page}&q=${searchText}`
-      );
-
-      if (req.status === 200) {
-        const responseData = req.data;
-        console.log(responseData);
-        if (responseData && Array.isArray(responseData.data)) {
-          setAgents(responseData.data);
-          setLast_Page(responseData.total);
-        } else {
-          console.error('Invalid data structure received from the API:', responseData);
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAgent();
-    console.log('Agents:', agents);
-  }, []);
-
-  // current_page, per_page
-
-  // if (loading === true) {
-  //   return (
-  //     <Typography variant="h2" sx={{ mr: '43rem' }}>
-  //       Loading...
-  //     </Typography>
-  //   );
-  // }
-
-  const handleSearch = (event) => {
-    setSearchText(event.target.value);
-  };
-
-  const handlePageChange = (newPage) => {
-    setCurrent_page(newPage);
-  };
-
-  const handlePageSizeChange = (newPageSize) => {
-    setPer_page(newPageSize);
-    setCurrent_page(1);
-  };
-
+export const DataTable = () => {
   return (
     <Container>
       <Card width={{ md: '100%' }}>
@@ -152,11 +77,7 @@ export default function AgentsView() {
             {/* {console.log('Type of agents:', typeof agents)} */}
             <DataGrid
               rows={agents}
-              // columns={columns}
-              columns={columns.map((col) => ({
-                ...col,
-                headerClassName: 'column-bgcolor',
-              }))}
+              columns={columns}
               pagination
               pageSize={per_page}
               paginationMode="server"
@@ -166,10 +87,7 @@ export default function AgentsView() {
               loading={!agents.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
-              sx={{
-                fontSize: 16,
-                border: 'none',
-              }}
+              sx={{ fontSize: 16, border: 'none' }}
             />
           </Box>
           {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
@@ -179,8 +97,4 @@ export default function AgentsView() {
       </Card>
     </Container>
   );
-}
-
-// AgentsView.propTypes = {
-//   agents: PropTypes.array,
-// };
+};

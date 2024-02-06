@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { RiEditLine, RiDeleteBin2Line } from 'react-icons/ri';
 
-import { Box, Icon, Popover, IconButton, Menu, MenuItem, Stack } from '@mui/material';
+import { Box, Icon, Popover, IconButton, Menu, MenuItem } from '@mui/material';
 
 import { EditAgent } from './EditAgent';
 import { DeleteAgent } from './DeleteAgent';
 import { useModalState } from 'src/hooks/useModalState';
 
 export const columns = [
-  { field: 'id', headerName: 'No', flex: 1 },
+  { field: 'id', headerName: 'No', flex: 1, headerStyle: { backgroundColor: '#d1d1d1' } },
   { field: 'fullname', headerName: 'Name', flex: 1 },
   { field: 'description', headerName: 'Description', flex: 1 },
   { field: 'business', headerName: 'Business', flex: 1 },

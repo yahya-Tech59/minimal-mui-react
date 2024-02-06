@@ -160,6 +160,7 @@ export default function CustomersView() {
               loading={!customers.length}
               pageSizeOptions={[10, 25, 100]}
               getRowId={(row) => row.id}
+              sx={{ fontSize: 16, border: 'none' }}
             />
           </Box>
           {/* <Table row={users} columns={columns} getRowId={(row) => row.id} onSort={handleSort} /> */}
