@@ -4,34 +4,38 @@ export const useModalState = () => {
   const [editId, setEditId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
 
-  const [add, setAdd] = useState(null);
-  const [edit, setEdit] = useState(null);
-  const [del, setDelete] = useState(null);
+  const [addOpen, setAddOpen] = useState(null);
+  const [editOpen, setEditOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
 
   //const open = Boolean({ add, edit, del });
 
-  const handleAddPopoverOpen = (event) => {
-    setAdd(event.currentTarget);
+  const handleAddPopoverOpen = () => {
+    setAddOpen(true);
   };
 
   const handleAddPopoverClose = () => {
-    setAdd(null);
+    setAddOpen(null);
   };
 
-  const handleEditPopoverOpen = (event) => {
-    setEdit(event.currentTarget);
+  const handleEditOpen = (id) => {
+    setEditId(id);
+    setEditOpen(true);
   };
 
-  const handleEditPopoverClose = () => {
-    setEdit(null);
+  const handleEditClose = () => {
+    setEditOpen(false);
+    setEditId(null);
   };
 
-  const handleDeletePopoverOpen = (event) => {
-    setDelete(event.currentTarget);
+  const handleDeleteOpen = (id) => {
+    setDeleteId(id);
+    setDeleteOpen(true);
   };
 
-  const handleDeletePopoverClose = () => {
-    setDelete(null);
+  const handleDeleteClose = () => {
+    setDeleteOpen(false);
+    setDeleteId(null);
   };
 
   return {
@@ -39,14 +43,16 @@ export const useModalState = () => {
     setEditId,
     deleteId,
     setDeleteId,
-    add,
-    edit,
-    del,
+    editId,
+    addOpen,
+    editOpen,
+    deleteId,
+    deleteOpen,
     handleAddPopoverOpen,
     handleAddPopoverClose,
-    handleEditPopoverOpen,
-    handleEditPopoverClose,
-    handleDeletePopoverOpen,
-    handleDeletePopoverClose,
+    handleEditOpen,
+    handleEditClose,
+    handleDeleteOpen,
+    handleDeleteClose,
   };
 };

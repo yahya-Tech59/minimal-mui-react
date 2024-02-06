@@ -17,30 +17,27 @@ export const columns = [
   {
     field: 'actions',
     headerName: 'Actions',
-    // flex: 1,
     sortable: false,
     renderCell: ({ row }) => {
       const {
         editId,
-        setEditId,
         deleteId,
-        setDeleteId,
-        edit,
-        del,
-        handleEditPopoverOpen,
-        handleEditPopoverClose,
-        handleDeletePopoverOpen,
-        handleDeletePopoverClose,
+        editOpen,
+        deleteOpen,
+        handleEditOpen,
+        handleEditClose,
+        handleDeleteOpen,
+        handleDeleteClose,
       } = useModalState();
 
-      const [menuAnchor, setMenuAnchor] = React.useState(null);
+      const [menuAnchorEl, setMenuAnchorEl] = useState(null);
 
       const handleMenuOpen = (event) => {
-        setMenuAnchor(event.currentTarget);
+        setMenuAnchorEl(event.currentTarget);
       };
 
       const handleMenuClose = () => {
-        setMenuAnchor(null);
+        setMenuAnchorEl(null);
       };
 
       return (
@@ -56,59 +53,32 @@ export const columns = [
           }}
         >
           <IconButton onClick={handleMenuOpen}>
-            <Icon sx={{ fontSize: 21, fontWeight: 'semiBold', transform: 'rotate(90deg)' }}>
+            <Icon
+              sx={{ ml: 1.5, fontSize: 21, fontWeight: 'semiBold', transform: 'rotate(90deg)' }}
+            >
               ...
             </Icon>
           </IconButton>
 
-          <Menu
-            anchorEl={menuAnchor}
-            open={Boolean(menuAnchor)}
-            onClose={handleMenuClose}
-            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
-            transformOrigin={{ vertical: 'center', horizontal: 'center' }}
-          >
-            <MenuItem
-              onClick={() => {
-                setEditId(row.id);
-                handleEditPopoverOpen();
-                handleMenuClose();
-              }}
-            >
+          <Menu anchorEl={menuAnchorEl} open={Boolean(menuAnchorEl)} onClose={handleMenuClose}>
+            <MenuItem onClick={() => handleEditOpen(row.id)}>
               <RiEditLine />
               Edit
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                setDeleteId(row.id);
-                handleDeletePopoverOpen();
-                handleMenuClose();
-              }}
-              display="flex"
-            >
+            <MenuItem onClick={() => handleDeleteOpen(row.id)}>
               <RiDeleteBin2Line />
               Delete
             </MenuItem>
           </Menu>
 
-          <Popover
-            open={edit}
-            onClose={handleEditPopoverClose}
-            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
-            transformOrigin={{ vertical: 'center', horizontal: 'center' }}
-          >
-            <EditAgent onClose={handleEditPopoverClose} id={editId} />
+          {/* EditAgent Popover */}
+          <Popover open={editOpen} onClose={handleEditClose}>
+            <EditAgent onClose={handleEditClose} id={editId} />
           </Popover>
 
-          <Popover
-            open={del}
-            onClose={handleDeletePopoverClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          >
-            <Box>
-              <DeleteAgent id={deleteId} />
-            </Box>
+          {/* DeleteAgent Popover */}
+          <Popover open={deleteOpen} onClose={handleDeleteClose}>
+            <DeleteAgent onClose={handleDeleteClose} id={deleteId} />
           </Popover>
         </Box>
       );
