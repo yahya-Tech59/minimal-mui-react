@@ -30,14 +30,14 @@ export const columns = [
         handleDeleteClose,
       } = useModalState();
 
-      const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+      const [menuOpen, setMenuOpenl] = useState(null);
 
       const handleMenuOpen = (event) => {
-        setMenuAnchorEl(event.currentTarget);
+        setMenuOpenl(event.currentTarget);
       };
 
       const handleMenuClose = () => {
-        setMenuAnchorEl(null);
+        setMenuOpenl(null);
       };
 
       return (
@@ -60,7 +60,7 @@ export const columns = [
             </Icon>
           </IconButton>
 
-          <Menu anchorEl={menuAnchorEl} open={Boolean(menuAnchorEl)} onClose={handleMenuClose}>
+          <Menu anchorEl={menuOpen} open={Boolean(menuOpen)} onClose={handleMenuClose}>
             <MenuItem onClick={() => handleEditOpen(row.id)}>
               <RiEditLine />
               Edit
